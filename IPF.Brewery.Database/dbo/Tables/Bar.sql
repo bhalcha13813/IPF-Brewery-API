@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Bar]
+(
+	[Id] INT PRIMARY KEY IDENTITY(1,1),
+	[BarName] VARCHAR(50) NOT NULL, 
+    [Address] VARCHAR(250) NOT NULL 
+)
+
+GO

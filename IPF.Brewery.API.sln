@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPF.Brewery.API", "IPF.Brewery.API\IPF.Brewery.API.csproj", "{AC3896D4-8483-4BE4-9A4B-6665DF9DFB4F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{813F630F-9580-44BE-8E72-043EC09BE0EC}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "IPF.Brewery.Database", "IPF.Brewery.Database\IPF.Brewery.Database.sqlproj", "{36F8A0B3-4527-4AE3-A1FE-E83F22F0717D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPF.Brewery.Common", "IPF.Brewery.Common\IPF.Brewery.Common.csproj", "{C41AC701-4B7C-4372-87D7-600E4BD56C6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4C178FA5-A55D-4D6C-97A7-9224F34689A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPF.Brewery.API.UnitTests", "IPF.Brewery.API.UnitTests\IPF.Brewery.API.UnitTests.csproj", "{F6875CCA-1B63-48F7-BC4F-FEB27FF90991}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC3896D4-8483-4BE4-9A4B-6665DF9DFB4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC3896D4-8483-4BE4-9A4B-6665DF9DFB4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC3896D4-8483-4BE4-9A4B-6665DF9DFB4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC3896D4-8483-4BE4-9A4B-6665DF9DFB4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36F8A0B3-4527-4AE3-A1FE-E83F22F0717D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36F8A0B3-4527-4AE3-A1FE-E83F22F0717D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36F8A0B3-4527-4AE3-A1FE-E83F22F0717D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{36F8A0B3-4527-4AE3-A1FE-E83F22F0717D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36F8A0B3-4527-4AE3-A1FE-E83F22F0717D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36F8A0B3-4527-4AE3-A1FE-E83F22F0717D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{C41AC701-4B7C-4372-87D7-600E4BD56C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C41AC701-4B7C-4372-87D7-600E4BD56C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C41AC701-4B7C-4372-87D7-600E4BD56C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C41AC701-4B7C-4372-87D7-600E4BD56C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6875CCA-1B63-48F7-BC4F-FEB27FF90991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6875CCA-1B63-48F7-BC4F-FEB27FF90991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6875CCA-1B63-48F7-BC4F-FEB27FF90991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6875CCA-1B63-48F7-BC4F-FEB27FF90991}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{36F8A0B3-4527-4AE3-A1FE-E83F22F0717D} = {813F630F-9580-44BE-8E72-043EC09BE0EC}
+		{F6875CCA-1B63-48F7-BC4F-FEB27FF90991} = {4C178FA5-A55D-4D6C-97A7-9224F34689A3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5BF992B-9776-4CA0-818F-6AD42E766E22}
+	EndGlobalSection
+EndGlobal

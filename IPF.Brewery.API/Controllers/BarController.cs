@@ -1,0 +1,93 @@
+﻿using FluentValidation.Results;
+using IPF.Brewery.API.Extension;
+using IPF.Brewery.API.Services;
+using IPF.Brewery.Common.Models.DTO;
+using IPF.Brewery.Common.Models.Request;
+using IPF.Brewery.Common.Models.Response;
+using Microsoft.AspNetCore.Mvc;
+
+namespace IPF.Brewery.API.Controllers
+{
+    public class BarController : BaseController
+    {
+        private readonly IBarService barService; 
+        public BarController(IHttpContextAccessor contextAccessor,
+                             IBarService barService) : base(contextAccessor)
+        {
+            this.barService = barService;
+        }
+
+
+        [HttpGet]
+        [Route("/bar")]
+        public IActionResult GetBars()
+        {
+           List<BarResponseModel> bars = barService.getBars();
+           return new OkObjectResult(bars);
+        }
+
+        [HttpGet]
+        [Route("/bar/{barId}")]
+        public IActionResult GetBar(int barId)
+        {
+            BarResponseModel? bar = barService.getBar(barId);
+            return new OkObjectResult(bar);
+        }
+
+        [HttpGet]
+        [Route("/bar/{barId}/beer")]
+        public IActionResult GetBarBeers(int barId)
+        {
+            List<BarBeer> barBeers = barService.getBarBeers(barId);
+            return new OkObjectResult(barBeers);
+        }
+
+        [HttpGet]
+        [Route("/bar/beer")]
+        public IActionResult getAllBarsWithBeers()
+        {
+            List<BarBeer> allBarsWithBeers = barService.getAllBarsWithBeers();
+            return new OkObjectResult(allBarsWithBeers);
+        }
+
+        [HttpPost]
+        [Route("/bar")]
+        public IActionResult AddBar(BarPayload barPayload)
+        {
+            ValidationResult validationResult = barService.validateAddBar(barPayload);
+
+            if (!validationResult.IsValid)
+            {
+                List<Error> errors;
+
+                if (validationResult.HasConflictErrors(out errors))
+                {
+                    return BuildConflictErrorResponse(errors);
+                }
+
+                if (validationResult.HasBadRequestErrors(out errors))
+                {
+                    return BuildBadRequestErrorResponse(errors);
+                }
+            }
+            barService.addBar(barPayload);
+            return new OkResult();
+        }
+
+        [HttpPut]
+        [Route("/bar/{barId}")]
+        public IActionResult UpdateBar(int barId, BarPayload barPayload)
+        {
+            barService.updateBar(barId, barPayload);
+            return new OkResult();
+        }
+
+        [HttpPost]
+        [Route("/bar/beer")]
+        public IActionResult AddBarBeer(BarBeerPayload barBeerPayload)
+        {
+            barService.addBarBeer(barBeerPayload);
+            return new OkResult();
+        }
+    }
+}

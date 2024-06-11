@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[BeerType]
+(
+	[Id] INT PRIMARY KEY IDENTITY(1,1),
+	[BeerTypeName] VARCHAR(50) NOT NULL
+)
