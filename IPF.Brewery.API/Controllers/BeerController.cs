@@ -1,6 +1,8 @@
 ﻿using FluentValidation.Results;
 using IPF.Brewery.API.Extension;
 using IPF.Brewery.API.Services;
+using IPF.Brewery.API.Validation.Models;
+using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -40,19 +42,12 @@ namespace IPF.Brewery.API.Controllers
             return new OkObjectResult(beers);
         }
 
-        [HttpGet]
-        [Route("/Beer/Types")]
-        public IActionResult GetBeerTypes()
-        {
-            List<BeerTypeResponseModel> beerTypes = beerService.getBeerTypes();
-            return new OkObjectResult(beerTypes);
-        }
-
         [HttpPost]
         [Route("/Beer")]
         public IActionResult AddBeer(BeerPayload beerPayload)
         {
-            ValidationResult validationResult = beerService.validateAddBeer(beerPayload);
+            VMBeer vmBeer = new VMBeer() { BeerName = beerPayload.BeerName};
+            ValidationResult validationResult = beerService.validateBeer(vmBeer);
 
             if (!validationResult.IsValid)
             {
@@ -76,6 +71,23 @@ namespace IPF.Brewery.API.Controllers
         [Route("/Beer/{beerId}")]
         public IActionResult UpdateBeer(int beerId, BeerPayload beerPayload)
         {
+            VMBeer vmBeer = new VMBeer() { Id = beerId, BeerName = beerPayload.BeerName };
+            ValidationResult validationResult = beerService.validateBeer(vmBeer);
+
+            if (!validationResult.IsValid)
+            {
+                List<Error> errors;
+
+                if (validationResult.HasConflictErrors(out errors))
+                {
+                    return BuildConflictErrorResponse(errors);
+                }
+
+                if (validationResult.HasBadRequestErrors(out errors))
+                {
+                    return BuildBadRequestErrorResponse(errors);
+                }
+            }
             beerService.updateBeer(beerId, beerPayload);
             return new OkResult();
         }

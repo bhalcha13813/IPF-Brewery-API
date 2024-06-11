@@ -3,6 +3,7 @@ using FakeItEasy;
 using FluentValidation.Results;
 using IPF.Brewery.API.Controllers;
 using IPF.Brewery.API.Services;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,7 @@ namespace IPF.Brewery.API.UnitTests.Controllers
             var validationMessage = new ValidationFailure("prop1", "error message");
             validationMessage.ErrorCode = HttpStatusCode.BadRequest.ToString();
 
-            A.CallTo(() => fakeBreweryService.validateAddBrewery(A<BreweryPayload>.Ignored))
+            A.CallTo(() => fakeBreweryService.validateBrewery(A<VMBrewery>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
             var result = (BadRequestObjectResult) breweryController.AddBrewery(new BreweryPayload());
@@ -44,7 +45,7 @@ namespace IPF.Brewery.API.UnitTests.Controllers
         [Test] 
         public void Test_AddBrewery_Returns_OkResult_When_ValidRequest()
         {
-            A.CallTo(() => fakeBreweryService.validateAddBrewery(A<BreweryPayload>.Ignored))
+            A.CallTo(() => fakeBreweryService.validateBrewery(A<VMBrewery>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
             A.CallTo(() => fakeBreweryService.addBrewery(A<BreweryPayload>.Ignored))

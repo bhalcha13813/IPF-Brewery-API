@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 
@@ -6,7 +7,7 @@ namespace IPF.Brewery.API.Services
 {
     public interface IBarService
     {
-        ValidationResult validateAddBar(BarPayload barPayload);
+        ValidationResult validateBar(VMBar vmBar);
         BarResponseModel? getBar(int breweryId);
         List<BarResponseModel> getBars();
         List<BarBeer> getBarBeers(int barId);

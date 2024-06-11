@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using IPF.Brewery.API.Validation;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
@@ -9,18 +10,13 @@ namespace IPF.Brewery.API.Services
 {
     public class BeerService : IBeerService
     {
-        private readonly IAddBeerValidator addBeerValidator;
+        private readonly IBeerValidator _beerValidator;
         private readonly IBeerRepository beerRepository;
         
-        public BeerService(IAddBeerValidator addBeerValidator, IBeerRepository beerRepository)
+        public BeerService(IBeerValidator beerValidator, IBeerRepository beerRepository)
         {
-            this.addBeerValidator = addBeerValidator;
+            this._beerValidator = beerValidator;
             this.beerRepository = beerRepository;
-        }
-
-        public ValidationResult validateAddBeer(BeerPayload beerPayload)
-        {
-            return addBeerValidator.Validate(beerPayload);
         }
 
         public BeerResponseModel? getBeer(int beerId)
@@ -60,14 +56,9 @@ namespace IPF.Brewery.API.Services
                     }).ToList();
         }
 
-        public List<BeerTypeResponseModel> getBeerTypes()
+        public ValidationResult validateBeer(VMBeer vmBeer)
         {
-            return beerRepository.getBeerTypes()
-                .Select(b => new BeerTypeResponseModel()
-                {
-                    Id = b.Id,
-                    BeerType = b.BeerTypeName
-                }).ToList();
+            return _beerValidator.Validate(vmBeer);
         }
 
         public int addBeer(BeerPayload beerPayload)

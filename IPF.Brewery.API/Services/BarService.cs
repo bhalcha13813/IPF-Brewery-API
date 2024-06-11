@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using IPF.Brewery.API.Validation;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
@@ -9,19 +10,19 @@ namespace IPF.Brewery.API.Services
 {
     public class BarService : IBarService
     {
-        private readonly IAddBarValidator addBarValidator;
+        private readonly IBarValidator _barValidator;
         private readonly IBarRepository barRepository;
         private readonly IBeerRepository beerRepository;
-        public BarService(IAddBarValidator addBarValidator, IBarRepository barRepository, IBeerRepository beerRepository)
+        public BarService(IBarValidator barValidator, IBarRepository barRepository, IBeerRepository beerRepository)
         {
-            this.addBarValidator = addBarValidator;
+            this._barValidator = barValidator;
             this.barRepository = barRepository;
             this.beerRepository = beerRepository;
         }
 
-        public ValidationResult validateAddBar(BarPayload barPayload)
+        public ValidationResult validateBar(VMBar vmBar)
         {
-            return addBarValidator.Validate(barPayload);
+            return _barValidator.Validate(vmBar);
         }
 
         public List<BarResponseModel> getBars()

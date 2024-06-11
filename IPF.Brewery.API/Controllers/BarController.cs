@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using IPF.Brewery.API.Extension;
 using IPF.Brewery.API.Services;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
@@ -54,7 +55,8 @@ namespace IPF.Brewery.API.Controllers
         [Route("/bar")]
         public IActionResult AddBar(BarPayload barPayload)
         {
-            ValidationResult validationResult = barService.validateAddBar(barPayload);
+            VMBar vmBar = new VMBar() { BarName = barPayload.BarName};
+            ValidationResult validationResult = barService.validateBar(vmBar);
 
             if (!validationResult.IsValid)
             {
@@ -78,6 +80,23 @@ namespace IPF.Brewery.API.Controllers
         [Route("/bar/{barId}")]
         public IActionResult UpdateBar(int barId, BarPayload barPayload)
         {
+            VMBar vmBar = new VMBar() { Id = barId, BarName = barPayload.BarName };
+            ValidationResult validationResult = barService.validateBar(vmBar);
+
+            if (!validationResult.IsValid)
+            {
+                List<Error> errors;
+
+                if (validationResult.HasConflictErrors(out errors))
+                {
+                    return BuildConflictErrorResponse(errors);
+                }
+
+                if (validationResult.HasBadRequestErrors(out errors))
+                {
+                    return BuildBadRequestErrorResponse(errors);
+                }
+            }
             barService.updateBar(barId, barPayload);
             return new OkResult();
         }

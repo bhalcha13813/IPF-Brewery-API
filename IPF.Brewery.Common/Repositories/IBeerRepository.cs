@@ -1,4 +1,5 @@
 ﻿using IPF.Brewery.Common.Models.DTO;
+using System.Linq;
 
 namespace IPF.Brewery.Common.Repositories
 {
@@ -8,7 +9,6 @@ namespace IPF.Brewery.Common.Repositories
         Beer? getBeer(string beerName);
         IQueryable<Beer> getBeers();
         IQueryable<Beer> getBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume);
-        IQueryable<BeerType> getBeerTypes();
         int addBeer(Beer beer);
         int updateBeer(Beer beer);
     }

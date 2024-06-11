@@ -1,6 +1,7 @@
 ﻿using FluentValidation.Results;
 using IPF.Brewery.API.Extension;
 using IPF.Brewery.API.Services;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
@@ -57,7 +58,8 @@ namespace IPF.Brewery.API.Controllers
         [Route("/brewery")]
         public IActionResult AddBrewery(BreweryPayload breweryPayload)
         {
-            ValidationResult validationResult = breweryService.validateAddBrewery(breweryPayload);
+            VMBrewery vmBrewery = new VMBrewery() { BreweryName = breweryPayload.BreweryName };
+            ValidationResult validationResult = breweryService.validateBrewery(vmBrewery);
 
             if (!validationResult.IsValid)
             {
@@ -80,9 +82,27 @@ namespace IPF.Brewery.API.Controllers
 
         [HttpPut]
         [Route("/brewery/{breweryId}")]
-        public IActionResult UpdateBrewery(int breweryId, BreweryPayload beerPayload)
+        public IActionResult UpdateBrewery(int breweryId, BreweryPayload breweryPayload)
         {
-            breweryService.updateBrewery(breweryId, beerPayload);
+            VMBrewery vmBrewery = new VMBrewery() { Id = breweryId, BreweryName = breweryPayload.BreweryName };
+            ValidationResult validationResult = breweryService.validateBrewery(vmBrewery);
+
+            if (!validationResult.IsValid)
+            {
+                List<Error> errors;
+
+                if (validationResult.HasConflictErrors(out errors))
+                {
+                    return BuildConflictErrorResponse(errors);
+                }
+
+                if (validationResult.HasBadRequestErrors(out errors))
+                {
+                    return BuildBadRequestErrorResponse(errors);
+                }
+            }
+
+            breweryService.updateBrewery(breweryId, breweryPayload);
             return new OkResult();
         }
 

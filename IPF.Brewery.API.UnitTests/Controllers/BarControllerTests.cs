@@ -3,6 +3,7 @@ using FakeItEasy;
 using FluentValidation.Results;
 using IPF.Brewery.API.Controllers;
 using IPF.Brewery.API.Services;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,7 @@ namespace IPF.Brewery.API.UnitTests.Controllers
             var validationMessage = new ValidationFailure("prop1", "error message");
             validationMessage.ErrorCode = HttpStatusCode.BadRequest.ToString();
 
-            A.CallTo(() => fakeBarService.validateAddBar(A<BarPayload>.Ignored))
+            A.CallTo(() => fakeBarService.validateBar(A<VMBar>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
             var result = (BadRequestObjectResult) barController.AddBar(new BarPayload());
@@ -44,7 +45,7 @@ namespace IPF.Brewery.API.UnitTests.Controllers
         [Test] 
         public void Test_AddBar_Returns_OkResult_When_ValidRequest()
         {
-            A.CallTo(() => fakeBarService.validateAddBar(A<BarPayload>.Ignored))
+            A.CallTo(() => fakeBarService.validateBar(A<VMBar>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
             A.CallTo(() => fakeBarService.addBar(A<BarPayload>.Ignored))

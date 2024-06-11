@@ -3,6 +3,7 @@ using FakeItEasy;
 using FluentValidation.Results;
 using IPF.Brewery.API.Services;
 using IPF.Brewery.API.Validation;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
@@ -13,7 +14,7 @@ namespace IPF.Brewery.API.UnitTests.Services
     [TestFixture()]
     public class BarServiceTests
     {
-        private IAddBarValidator fakeAddBarValidator;
+        private IBarValidator _fakeBarValidator;
         private IBarRepository fakeBarRepository;
         private IBeerRepository fakeBeerRepository;
         private IBarService barService;
@@ -21,10 +22,10 @@ namespace IPF.Brewery.API.UnitTests.Services
         [SetUp]
         public void Setup()
         {
-            fakeAddBarValidator = A.Fake<IAddBarValidator>();
+            _fakeBarValidator = A.Fake<IBarValidator>();
             fakeBarRepository = A.Fake<IBarRepository>();
             fakeBeerRepository = A.Fake<IBeerRepository>();
-            barService = new BarService(fakeAddBarValidator, fakeBarRepository, fakeBeerRepository);
+            barService = new BarService(_fakeBarValidator, fakeBarRepository, fakeBeerRepository);
         }
 
         [Test]
@@ -33,10 +34,10 @@ namespace IPF.Brewery.API.UnitTests.Services
             var validationMessage = new ValidationFailure("prop1", "error message");
             validationMessage.ErrorCode = HttpStatusCode.BadRequest.ToString();
 
-            A.CallTo(() => fakeAddBarValidator.Validate(A<BarPayload>.Ignored))
+            A.CallTo(() => _fakeBarValidator.Validate(A<VMBar>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
-            var result =  barService.validateAddBar(new BarPayload());
+            var result =  barService.validateBar(new VMBar());
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("error message", result.Errors.Single().ErrorMessage);
         }
@@ -44,10 +45,10 @@ namespace IPF.Brewery.API.UnitTests.Services
         [Test] 
         public void Test_validateAddBar_Returns_Success_When_ValidPayload()
         {
-            A.CallTo(() => fakeAddBarValidator.Validate(A<BarPayload>.Ignored))
+            A.CallTo(() => _fakeBarValidator.Validate(A<VMBar>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
-            var result = barService.validateAddBar(new BarPayload());
+            var result = barService.validateBar(new VMBar());
             Assert.IsTrue(result.IsValid);
         }
 

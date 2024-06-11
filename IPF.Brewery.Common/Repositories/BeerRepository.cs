@@ -6,6 +6,7 @@ namespace IPF.Brewery.Common.Repositories
     public class BeerRepository : IBeerRepository
     {
         private readonly BreweryContext breweryContext;
+
         public BeerRepository(BreweryContext breweryContext )
         {
             this.breweryContext = breweryContext;
@@ -32,11 +33,6 @@ namespace IPF.Brewery.Common.Repositories
                 .Include(b => b.BeerType)
                 .Where(b => b.PercentageAlcoholByVolume > gtAlcoholByVolume &&
                             b.PercentageAlcoholByVolume < ltAlcoholByVolume);
-        }
-
-        public IQueryable<BeerType> getBeerTypes()
-        {
-            return breweryContext.BeerType.AsQueryable();
         }
 
         public int addBeer(Beer beer)

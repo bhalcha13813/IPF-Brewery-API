@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 
@@ -6,7 +7,7 @@ namespace IPF.Brewery.API.Services
 {
     public interface IBreweryService
     {
-        ValidationResult validateAddBrewery(BreweryPayload breweryPayload);
+        ValidationResult validateBrewery(VMBrewery vmBrewery);
         BreweryResponseModel? getBrewery(int breweryId);
         List<BreweryResponseModel> getBreweries();
         List<BreweryBeer> getBreweryBeers(int breweryId);

@@ -4,27 +4,28 @@ using IPF.Brewery.Common.Repositories;
 using System.Net;
 using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
+using IPF.Brewery.API.Validation.Models;
 
 namespace IPF.Brewery.API.Validation
 {
-    public interface IAddBeerValidator
+    public interface IBeerValidator
     {
-        ValidationResult Validate(BeerPayload beerPayload);
+        ValidationResult Validate(VMBeer vmBeer);
 
     }
 
-    public class AddBeerValidator : AbstractValidator<BeerPayload>, IAddBeerValidator
+    public class BeerValidator : AbstractValidator<VMBeer>, IBeerValidator
     {
         private readonly IBeerRepository beerRepository;
 
         private Beer beer;
 
-        ValidationResult IAddBeerValidator.Validate(BeerPayload beerPayload)
+        ValidationResult IBeerValidator.Validate(VMBeer vmBeer)
         {
-            return Validate(beerPayload);
+            return Validate(vmBeer);
         }
 
-        public AddBeerValidator(IBeerRepository beerRepository)
+        public BeerValidator(IBeerRepository beerRepository)
         {
             this.beerRepository = beerRepository;
 
@@ -32,25 +33,33 @@ namespace IPF.Brewery.API.Validation
                 .WithErrorCode(HttpStatusCode.BadRequest.ToString())
                 .WithMessage("BeerName cannot be empty.");
 
-            RuleFor(b => b.BeerName)
+            RuleFor(b => b)
                 .Must(b => BeUniqueBeerName(b))
                 .WithErrorCode(HttpStatusCode.Conflict.ToString())
                 .WithMessage("BeerName already exists.");
         }
 
-        private Beer getBeer(string beerName)
+        private Beer getBeer(VMBeer vmBeer)
         {
             if (beer == null)
             {
-                beer = beerRepository.getBeer(beerName);
+                beer = beerRepository.getBeer(vmBeer.BeerName);
+
+                if (beer != null && vmBeer.Id != null)
+                {
+                    if (vmBeer.Id.Value == beer.Id)
+                    {
+                        beer = null;
+                    }
+                }
             }
 
             return beer;
         }
 
-        private bool BeUniqueBeerName(string beerName)
+        private bool BeUniqueBeerName(VMBeer vmBeer)
         { 
-            beer = getBeer(beerName);
+            beer = getBeer(vmBeer);
             return beer == null;
         }
     }

@@ -55,19 +55,23 @@ namespace IPF.Brewery.API
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddScoped<IAddBreweryValidator, AddBreweryValidator>();
+            services.AddScoped<IBreweryValidator, BreweryValidator>();
             services.AddScoped<IBreweryService, BreweryService>();
             services.AddScoped<IBreweryRepository, BreweryRepository>();
 
-            services.AddScoped<IAddBarValidator, AddBarValidator>();
+            services.AddScoped<IBarValidator, BarValidator>();
             services.AddScoped<IBarService, BarService>();
             services.AddScoped<IBarRepository, BarRepository>();
 
-            services.AddScoped<IAddBeerValidator, AddBeerValidator>();
+            services.AddScoped<IBeerValidator, BeerValidator>();
             services.AddScoped<IBeerService, BeerService>();
             services.AddScoped<IBeerRepository, BeerRepository>();
 
-            services.AddHealthChecks(); //.AddSqlServer(breweryDBConfiguration.ConnectionString);
+            services.AddScoped<IBeerTypeValidator, BeerTypeValidator>();
+            services.AddScoped<IBeerTypeService, BeerTypeService>();
+            services.AddScoped<IBeerTypeRepository, BeerTypeRepository>();
+
+            services.AddHealthChecks();
 
 
         }

@@ -3,6 +3,7 @@ using FakeItEasy;
 using FluentValidation.Results;
 using IPF.Brewery.API.Services;
 using IPF.Brewery.API.Validation;
+using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using IPF.Brewery.Common.Repositories;
@@ -12,7 +13,7 @@ namespace IPF.Brewery.API.UnitTests.Services
     [TestFixture()]
     public class BreweryServiceTests
     {
-        private IAddBreweryValidator fakeAddBreweryValidator;
+        private IBreweryValidator fakeBreweryValidator;
         private IBreweryRepository fakeBreweryRepository;
         private IBeerRepository fakeBeerRepository;
         private IBreweryService breweryService;
@@ -20,10 +21,10 @@ namespace IPF.Brewery.API.UnitTests.Services
         [SetUp]
         public void Setup()
         {
-            fakeAddBreweryValidator = A.Fake<IAddBreweryValidator>();
+            fakeBreweryValidator = A.Fake<IBreweryValidator>();
             fakeBreweryRepository = A.Fake<IBreweryRepository>();
             fakeBeerRepository = A.Fake<IBeerRepository>();
-            breweryService = new BreweryService(fakeAddBreweryValidator, fakeBreweryRepository, fakeBeerRepository);
+            breweryService = new BreweryService(fakeBreweryValidator, fakeBreweryRepository, fakeBeerRepository);
         }
 
         [Test]
@@ -32,10 +33,10 @@ namespace IPF.Brewery.API.UnitTests.Services
             var validationMessage = new ValidationFailure("prop1", "error message");
             validationMessage.ErrorCode = HttpStatusCode.BadRequest.ToString();
 
-            A.CallTo(() => fakeAddBreweryValidator.Validate(A<BreweryPayload>.Ignored))
+            A.CallTo(() => fakeBreweryValidator.Validate(A<VMBrewery>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
-            var result =  breweryService.validateAddBrewery(new BreweryPayload());
+            var result =  breweryService.validateBrewery(new VMBrewery());
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("error message", result.Errors.Single().ErrorMessage);
         }
@@ -43,10 +44,10 @@ namespace IPF.Brewery.API.UnitTests.Services
         [Test] 
         public void Test_validateAddBrewery_Returns_Success_When_ValidPayload()
         {
-            A.CallTo(() => fakeAddBreweryValidator.Validate(A<BreweryPayload>.Ignored))
+            A.CallTo(() => fakeBreweryValidator.Validate(A<VMBrewery>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
-            var result = breweryService.validateAddBrewery(new BreweryPayload());
+            var result = breweryService.validateBrewery(new VMBrewery());
             Assert.IsTrue(result.IsValid);
         }
 
