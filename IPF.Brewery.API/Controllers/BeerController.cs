@@ -45,7 +45,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/Beer")]
         public IActionResult AddBeer(BeerPayload beerPayload)
         {
-            VMBeer vmBeer = new VMBeer() { BeerName = beerPayload.BeerName};
+            VMBeer vmBeer = new VMBeer() { BeerName = beerPayload.BeerName, BeerTypeId = beerPayload.BeerTypeId};
             ValidationResult validationResult = beerService.validateBeer(vmBeer);
 
             if (!validationResult.IsValid)
@@ -70,7 +70,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/Beer/{beerId}")]
         public IActionResult UpdateBeer(int beerId, BeerPayload beerPayload)
         {
-            VMBeer vmBeer = new VMBeer() { Id = beerId, BeerName = beerPayload.BeerName };
+            VMBeer vmBeer = new VMBeer() { Id = beerId, BeerName = beerPayload.BeerName, BeerTypeId = beerPayload.BeerTypeId };
             ValidationResult validationResult = beerService.validateBeer(vmBeer);
 
             if (!validationResult.IsValid)
