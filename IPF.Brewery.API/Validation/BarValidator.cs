@@ -34,7 +34,8 @@ namespace IPF.Brewery.API.Validation
             RuleFor(b => b)
                 .Must(b => BeUniqueBarName(b))
                 .WithErrorCode(HttpStatusCode.Conflict.ToString())
-                .WithMessage("BarName already exists.");
+                .WithMessage("BarName already exists.")
+                .OverridePropertyName(b => b.BarName);
         }
 
         private Bar getBar(VMBar vmBar)

@@ -34,7 +34,9 @@ namespace IPF.Brewery.API.Validation
             RuleFor(b => b)
                 .Must(b => BeUniqueBreweryName(b))
                 .WithErrorCode(HttpStatusCode.Conflict.ToString())
-                .WithMessage("Brewery name already exists.");
+                .WithMessage("Brewery name already exists.")
+                .OverridePropertyName(b => b.BreweryName);
+
         }
 
         private Common.Models.DTO.Brewery getBrewery(VMBrewery vmBrewery)

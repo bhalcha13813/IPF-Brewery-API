@@ -35,7 +35,8 @@ namespace IPF.Brewery.API.Validation
             RuleFor(b => b)
                 .Must(b => BeUniqueBeerType(b))
                 .WithErrorCode(HttpStatusCode.Conflict.ToString())
-                .WithMessage("BeerType already exists.");
+                .WithMessage("BeerType already exists.")
+                .OverridePropertyName(b => b.BeerType);
         }
 
         private BeerType? getBeerType(VMBeerType vmBeerType)
