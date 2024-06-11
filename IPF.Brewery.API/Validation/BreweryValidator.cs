@@ -1,11 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using IPF.Brewery.Common.Models.Response;
 using IPF.Brewery.Common.Repositories;
 using System.Net;
 using IPF.Brewery.API.Validation.Models;
-using IPF.Brewery.Common.Models.Request;
-using IPF.Brewery.Common.Models.DTO;
 
 namespace IPF.Brewery.API.Validation
 {

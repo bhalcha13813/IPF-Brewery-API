@@ -1,5 +1,8 @@
-﻿namespace IPF.Brewery.Common.Models.Request
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace IPF.Brewery.Common.Models.Request
 {
+    [ExcludeFromCodeCoverage]
     public class BeerTypePayload
     {
         public BeerTypePayload()

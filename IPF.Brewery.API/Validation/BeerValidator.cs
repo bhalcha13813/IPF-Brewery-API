@@ -3,7 +3,6 @@ using FluentValidation.Results;
 using IPF.Brewery.Common.Repositories;
 using System.Net;
 using IPF.Brewery.Common.Models.DTO;
-using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.API.Validation.Models;
 
 namespace IPF.Brewery.API.Validation

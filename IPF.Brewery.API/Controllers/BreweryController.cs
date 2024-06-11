@@ -2,12 +2,9 @@
 using IPF.Brewery.API.Extension;
 using IPF.Brewery.API.Services;
 using IPF.Brewery.API.Validation.Models;
-using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace IPF.Brewery.API.Controllers
 {

@@ -10,7 +10,6 @@ namespace IPF.Brewery.API.Validation
     public interface IBarValidator
     {
         ValidationResult Validate(VMBar vmBar);
-
     }
 
     public class BarValidator : AbstractValidator<VMBar>, IBarValidator

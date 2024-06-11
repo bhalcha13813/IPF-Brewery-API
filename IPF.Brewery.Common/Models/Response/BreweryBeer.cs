@@ -1,5 +1,8 @@
-﻿namespace IPF.Brewery.Common.Models.Response
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace IPF.Brewery.Common.Models.Response
 {
+    [ExcludeFromCodeCoverage]
     public class BreweryBeer
     {
         public BreweryResponseModel Brewery { get; set; }

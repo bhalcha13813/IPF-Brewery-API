@@ -1,5 +1,8 @@
-﻿namespace IPF.Brewery.API.Validation.Models
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace IPF.Brewery.API.Validation.Models
 {
+    [ExcludeFromCodeCoverage]
     public class VMBeer
     {
         public VMBeer()

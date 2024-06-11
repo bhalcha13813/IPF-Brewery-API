@@ -1,7 +1,6 @@
 ﻿using FluentValidation.Results;
 using IPF.Brewery.API.Extension;
 using IPF.Brewery.API.Services;
-using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Mvc;

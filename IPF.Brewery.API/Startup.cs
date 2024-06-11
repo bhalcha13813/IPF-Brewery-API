@@ -6,7 +6,6 @@ using IPF.Brewery.Common.Configuration;
 using IPF.Brewery.Common.Repositories;
 using IPF.Brewery.Common;
 
-
 namespace IPF.Brewery.API
 {
     public class Startup

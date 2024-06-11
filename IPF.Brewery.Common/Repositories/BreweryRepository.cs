@@ -1,6 +1,4 @@
-﻿using IPF.Brewery.Common.Models.DTO;
-using IPF.Brewery.Common.Models.Response;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace IPF.Brewery.Common.Repositories
 {
