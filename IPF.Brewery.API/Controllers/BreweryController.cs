@@ -107,6 +107,23 @@ namespace IPF.Brewery.API.Controllers
         [Route("/brewery/beer")]
         public IActionResult AddBreweryBeer(BreweryBeerPayload breweryBeerPayload)
         {
+            VMBreweryBeer vmBreweryBeer = new VMBreweryBeer() { BreweryId = breweryBeerPayload.BreweryId, BeerId = breweryBeerPayload.BeerId };
+            ValidationResult validationResult = breweryService.validateBreweryBeer(vmBreweryBeer);
+
+            if (!validationResult.IsValid)
+            {
+                List<Error> errors;
+
+                if (validationResult.HasConflictErrors(out errors))
+                {
+                    return BuildConflictErrorResponse(errors);
+                }
+
+                if (validationResult.HasBadRequestErrors(out errors))
+                {
+                    return BuildBadRequestErrorResponse(errors);
+                }
+            }
             breweryService.addBreweryBeer(breweryBeerPayload);
             return new OkResult();
         }

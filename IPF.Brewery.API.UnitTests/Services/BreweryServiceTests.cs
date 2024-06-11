@@ -14,6 +14,7 @@ namespace IPF.Brewery.API.UnitTests.Services
     public class BreweryServiceTests
     {
         private IBreweryValidator fakeBreweryValidator;
+        private IBreweryBeerValidator fakeBreweryBeerValidator;
         private IBreweryRepository fakeBreweryRepository;
         private IBeerRepository fakeBeerRepository;
         private IBreweryService breweryService;
@@ -22,9 +23,10 @@ namespace IPF.Brewery.API.UnitTests.Services
         public void Setup()
         {
             fakeBreweryValidator = A.Fake<IBreweryValidator>();
+            fakeBreweryBeerValidator = A.Fake<IBreweryBeerValidator>();
             fakeBreweryRepository = A.Fake<IBreweryRepository>();
             fakeBeerRepository = A.Fake<IBeerRepository>();
-            breweryService = new BreweryService(fakeBreweryValidator, fakeBreweryRepository, fakeBeerRepository);
+            breweryService = new BreweryService(fakeBreweryValidator, fakeBreweryBeerValidator, fakeBreweryRepository, fakeBeerRepository);
         }
 
         [Test]

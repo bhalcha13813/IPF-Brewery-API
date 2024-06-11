@@ -14,16 +14,16 @@ namespace IPF.Brewery.API.UnitTests.Services
     [TestFixture()]
     public class BeerServiceTests
     {
-        private IBeerValidator _fakeBeerValidator;
+        private IBeerValidator fakeBeerValidator;
         private IBeerRepository fakeBeerRepository;
         private IBeerService beerService;
 
         [SetUp]
         public void Setup()
         {
-            _fakeBeerValidator = A.Fake<IBeerValidator>();
+            fakeBeerValidator = A.Fake<IBeerValidator>();
             fakeBeerRepository = A.Fake<IBeerRepository>();
-            beerService = new BeerService(_fakeBeerValidator, fakeBeerRepository);
+            beerService = new BeerService(fakeBeerValidator, fakeBeerRepository);
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             var validationMessage = new ValidationFailure("prop1", "error message");
             validationMessage.ErrorCode = HttpStatusCode.BadRequest.ToString();
 
-            A.CallTo(() => _fakeBeerValidator.Validate(A<VMBeer>.Ignored))
+            A.CallTo(() => fakeBeerValidator.Validate(A<VMBeer>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
             var result = beerService.validateBeer(new VMBeer());
@@ -43,7 +43,7 @@ namespace IPF.Brewery.API.UnitTests.Services
         [Test] 
         public void Test_validateAddBeer_Returns_Success_When_ValidPayload()
         {
-            A.CallTo(() => _fakeBeerValidator.Validate(A<VMBeer>.Ignored))
+            A.CallTo(() => fakeBeerValidator.Validate(A<VMBeer>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
             var result = beerService.validateBeer(new VMBeer());

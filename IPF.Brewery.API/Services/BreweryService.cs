@@ -10,17 +10,20 @@ namespace IPF.Brewery.API.Services
 {
     public class BreweryService : IBreweryService
     {
+        private readonly IBreweryValidator breweryValidator;
+        private readonly IBreweryBeerValidator breweryBeerValidator;
         private readonly IBreweryRepository breweryRepository;
         private readonly IBeerRepository beerRepository;
-        private readonly IBreweryValidator breweryValidator;
 
-        public BreweryService(IBreweryValidator breweryValidator, 
+        public BreweryService(IBreweryValidator breweryValidator,
+                              IBreweryBeerValidator breweryBeerValidator,
                               IBreweryRepository breweryRepository, 
                               IBeerRepository beerRepository)
         {
+            this.breweryValidator = breweryValidator;
+            this.breweryBeerValidator = breweryBeerValidator;
             this.breweryRepository = breweryRepository;
             this.beerRepository = beerRepository;
-            this.breweryValidator = breweryValidator;
         }
 
         public ValidationResult validateBrewery(VMBrewery vmBrewery)
@@ -114,6 +117,11 @@ namespace IPF.Brewery.API.Services
             }
 
             return updatedBreweries;
+        }
+
+        public ValidationResult validateBreweryBeer(VMBreweryBeer vmBreweryBeer)
+        {
+            return breweryBeerValidator.Validate(vmBreweryBeer);
         }
 
         public int addBreweryBeer(BreweryBeerPayload breweryBeerPayload)

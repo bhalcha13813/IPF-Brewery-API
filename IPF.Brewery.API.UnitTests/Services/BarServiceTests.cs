@@ -14,7 +14,8 @@ namespace IPF.Brewery.API.UnitTests.Services
     [TestFixture()]
     public class BarServiceTests
     {
-        private IBarValidator _fakeBarValidator;
+        private IBarValidator fakeBarValidator;
+        private IBarBeerValidator fakeBarBeerValidator;
         private IBarRepository fakeBarRepository;
         private IBeerRepository fakeBeerRepository;
         private IBarService barService;
@@ -22,10 +23,11 @@ namespace IPF.Brewery.API.UnitTests.Services
         [SetUp]
         public void Setup()
         {
-            _fakeBarValidator = A.Fake<IBarValidator>();
+            fakeBarValidator = A.Fake<IBarValidator>();
+            fakeBarBeerValidator = A.Fake<IBarBeerValidator>();
             fakeBarRepository = A.Fake<IBarRepository>();
             fakeBeerRepository = A.Fake<IBeerRepository>();
-            barService = new BarService(_fakeBarValidator, fakeBarRepository, fakeBeerRepository);
+            barService = new BarService(fakeBarValidator, fakeBarBeerValidator, fakeBarRepository, fakeBeerRepository);
         }
 
         [Test]
@@ -34,7 +36,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             var validationMessage = new ValidationFailure("prop1", "error message");
             validationMessage.ErrorCode = HttpStatusCode.BadRequest.ToString();
 
-            A.CallTo(() => _fakeBarValidator.Validate(A<VMBar>.Ignored))
+            A.CallTo(() => fakeBarValidator.Validate(A<VMBar>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
             var result =  barService.validateBar(new VMBar());
@@ -45,7 +47,7 @@ namespace IPF.Brewery.API.UnitTests.Services
         [Test] 
         public void Test_validateAddBar_Returns_Success_When_ValidPayload()
         {
-            A.CallTo(() => _fakeBarValidator.Validate(A<VMBar>.Ignored))
+            A.CallTo(() => fakeBarValidator.Validate(A<VMBar>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
             var result = barService.validateBar(new VMBar());

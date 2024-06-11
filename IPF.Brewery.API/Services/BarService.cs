@@ -10,19 +10,21 @@ namespace IPF.Brewery.API.Services
 {
     public class BarService : IBarService
     {
-        private readonly IBarValidator _barValidator;
+        private readonly IBarValidator barValidator;
+        private readonly IBarBeerValidator barBeerValidator;
         private readonly IBarRepository barRepository;
         private readonly IBeerRepository beerRepository;
-        public BarService(IBarValidator barValidator, IBarRepository barRepository, IBeerRepository beerRepository)
+        public BarService(IBarValidator barValidator, IBarBeerValidator barBeerValidator, IBarRepository barRepository, IBeerRepository beerRepository)
         {
-            this._barValidator = barValidator;
+            this.barValidator = barValidator;
+            this.barBeerValidator = barBeerValidator;
             this.barRepository = barRepository;
             this.beerRepository = beerRepository;
         }
 
         public ValidationResult validateBar(VMBar vmBar)
         {
-            return _barValidator.Validate(vmBar);
+            return barValidator.Validate(vmBar);
         }
 
         public List<BarResponseModel> getBars()
@@ -114,6 +116,11 @@ namespace IPF.Brewery.API.Services
             }
 
             return updatedBars;
+        }
+
+        public ValidationResult validateBarBeer(VMBarBeer vmBarBeer)
+        {
+            return barBeerValidator.Validate(vmBarBeer);
         }
 
         public int addBarBeer(BarBeerPayload barBeerPayload)

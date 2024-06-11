@@ -14,6 +14,7 @@ namespace IPF.Brewery.API.Services
         List<BarBeer> getAllBarsWithBeers();
         int addBar(BarPayload barPayload);
         int updateBar(int beerId, BarPayload barPayload);
+        ValidationResult validateBarBeer(VMBarBeer vmBarBeer);
         int addBarBeer(BarBeerPayload barBeerPayload);
     }
 }

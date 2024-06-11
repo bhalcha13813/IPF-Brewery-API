@@ -2,6 +2,7 @@
 using IPF.Brewery.API.Extension;
 using IPF.Brewery.API.Services;
 using IPF.Brewery.API.Validation.Models;
+using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -104,6 +105,23 @@ namespace IPF.Brewery.API.Controllers
         [Route("/bar/beer")]
         public IActionResult AddBarBeer(BarBeerPayload barBeerPayload)
         {
+            VMBarBeer vmBarBeer = new VMBarBeer() { BarId = barBeerPayload.BarId, BeerId = barBeerPayload.BeerId};
+            ValidationResult validationResult = barService.validateBarBeer(vmBarBeer);
+
+            if (!validationResult.IsValid)
+            {
+                List<Error> errors;
+
+                if (validationResult.HasConflictErrors(out errors))
+                {
+                    return BuildConflictErrorResponse(errors);
+                }
+
+                if (validationResult.HasBadRequestErrors(out errors))
+                {
+                    return BuildBadRequestErrorResponse(errors);
+                }
+            }
             barService.addBarBeer(barBeerPayload);
             return new OkResult();
         }

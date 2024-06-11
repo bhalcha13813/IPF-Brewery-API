@@ -14,6 +14,7 @@ namespace IPF.Brewery.API.Services
         List<BreweryBeer> getAllBreweriesWithBeers();
         int addBrewery(BreweryPayload breweryPayload);
         int updateBrewery(int beerId, BreweryPayload breweryPayload);
+        ValidationResult validateBreweryBeer(VMBreweryBeer vmBreweryBeer);
         int addBreweryBeer(BreweryBeerPayload breweryBeerPayload);
     }
 }
