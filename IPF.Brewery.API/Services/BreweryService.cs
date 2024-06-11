@@ -52,24 +52,25 @@ namespace IPF.Brewery.API.Services
             };
         }
 
-        public List<BreweryBeer> getBreweryBeers(int breweryId)
+        public BreweryBeer? getBreweryBeers(int breweryId)
         {
-            return breweryRepository.getBreweryBeers(breweryId).Select(b => new BreweryBeer()
-            {
-                Brewery = new BreweryResponseModel()
-                {
-                    Id = b.Id,
-                    BreweryName = b.BreweryName,
-                    Address = b.Address
-                },
-                Beers = b.Beer.Select(be => new BeerResponseModel()
-                {
-                    Id = be.Id,
-                    BeerName = be.BeerName,
-                    PercentageAlcoholByVolume = be.PercentageAlcoholByVolume,
-                    BeerType = be.BeerType.BeerTypeName
-                }).ToList()
-            }).ToList();
+            Common.Models.DTO.Brewery? brewery = breweryRepository.getBreweryBeers(breweryId);
+            return brewery == null ? null : new BreweryBeer()
+                                            {
+                                                Brewery = new BreweryResponseModel()
+                                                {
+                                                    Id = brewery.Id,
+                                                    BreweryName = brewery.BreweryName,
+                                                    Address = brewery.Address
+                                                },
+                                                Beers = brewery.Beer.Select(be => new BeerResponseModel()
+                                                {
+                                                    Id = be.Id,
+                                                    BeerName = be.BeerName,
+                                                    PercentageAlcoholByVolume = be.PercentageAlcoholByVolume,
+                                                    BeerType = be.BeerType.BeerTypeName
+                                                }).ToList()
+                                            };
         }
 
         public List<BreweryBeer> getAllBreweriesWithBeers()

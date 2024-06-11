@@ -25,10 +25,10 @@ namespace IPF.Brewery.Common.Repositories
             return breweryContext.Brewery.AsQueryable();
         }
 
-        public IQueryable<Models.DTO.Brewery> getBreweryBeers(int breweryId)
+        public Models.DTO.Brewery? getBreweryBeers(int breweryId)
         {
             return breweryContext.Brewery.Include(b => b.Beer)
-                .Where(b => b.Id == breweryId);
+                .FirstOrDefault(b => b.Id == breweryId);
         }
 
         public IQueryable<Models.DTO.Brewery> getAllBreweriesWithBeers()

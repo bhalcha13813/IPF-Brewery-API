@@ -7,7 +7,7 @@ namespace IPF.Brewery.Common.Repositories
         Bar? getBar(int barId);
         Bar? getBar(string barName);
         IQueryable<Bar> getBars();
-        IQueryable<Bar> getBarBeers(int barId);
+        Bar? getBarBeers(int barId);
         IQueryable<Bar> getAllBarsWithBeers();
 
         int addBar(Bar bar);

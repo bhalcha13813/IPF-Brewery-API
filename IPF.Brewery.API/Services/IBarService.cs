@@ -10,7 +10,7 @@ namespace IPF.Brewery.API.Services
         ValidationResult validateBar(VMBar vmBar);
         BarResponseModel? getBar(int breweryId);
         List<BarResponseModel> getBars();
-        List<BarBeer> getBarBeers(int barId);
+        BarBeer? getBarBeers(int barId);
         List<BarBeer> getAllBarsWithBeers();
         int addBar(BarPayload barPayload);
         int updateBar(int beerId, BarPayload barPayload);

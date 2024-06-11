@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using IPF.Brewery.Common.Repositories;
 using System.Net;
+using IPF.Brewery.API.Services;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Response;
@@ -40,6 +41,12 @@ namespace IPF.Brewery.API.Validation
                 .Must(b => BeExistingBeer(b))
                 .WithErrorCode(HttpStatusCode.Conflict.ToString())
                 .WithMessage("Beer does not exist, Please add Beer first.");
+
+            RuleFor(b => b)
+                .Must(b => NotBeExistingBarBeer(b))
+                .WithErrorCode(HttpStatusCode.Conflict.ToString())
+                .WithMessage("This Bar-Beer record already exists.")
+                .OverridePropertyName("BarBeer");
         }
 
         private Bar getBar(int barId)
@@ -62,6 +69,7 @@ namespace IPF.Brewery.API.Validation
             return beer;
         }
 
+
         private bool BeExistingBar(int barId)
         { 
             bar = getBar(barId);
@@ -72,6 +80,19 @@ namespace IPF.Brewery.API.Validation
         {
             beer = getBeer(beerId);
             return beer != null;
+        }
+
+        private bool NotBeExistingBarBeer(VMBarBeer vmBarBeer)
+        {
+            Bar? barBeers = barRepository.getBarBeers(vmBarBeer.BarId);
+            if (barBeers != null)
+            {
+               int beerCount = barBeers.Beer.Count(b => b.Id == vmBarBeer.BeerId);
+               if (beerCount == 1)
+                   return false;
+            }
+
+            return true;
         }
     }
 }

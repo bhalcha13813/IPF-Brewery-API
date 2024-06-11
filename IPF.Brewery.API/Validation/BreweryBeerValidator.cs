@@ -40,6 +40,12 @@ namespace IPF.Brewery.API.Validation
                 .Must(b => BeExistingBeer(b))
                 .WithErrorCode(HttpStatusCode.Conflict.ToString())
                 .WithMessage("Beer does not exist, Please add Beer first.");
+
+            RuleFor(b => b)
+                .Must(b => NotBeExistingBreweryBeer(b))
+                .WithErrorCode(HttpStatusCode.Conflict.ToString())
+                .WithMessage("This Brewery-Beer record already exists.")
+                .OverridePropertyName("BreweryBeer");
         }
 
         private Common.Models.DTO.Brewery getBrewery(int breweryId)
@@ -72,6 +78,19 @@ namespace IPF.Brewery.API.Validation
         {
             beer = getBeer(beerId);
             return beer != null;
+        }
+
+        private bool NotBeExistingBreweryBeer(VMBreweryBeer vmBreweryBeer)
+        {
+            Common.Models.DTO.Brewery? breweryBeers = breweryRepository.getBreweryBeers(vmBreweryBeer.BreweryId);
+            if (breweryBeers != null)
+            {
+                int beerCount = breweryBeers.Beer.Count(b => b.Id == vmBreweryBeer.BeerId);
+                if (beerCount == 1)
+                    return false;
+            }
+
+            return true;
         }
     }
 }

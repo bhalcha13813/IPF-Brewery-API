@@ -39,7 +39,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/bar/{barId}/beer")]
         public IActionResult GetBarBeers(int barId)
         {
-            List<BarBeer> barBeers = barService.getBarBeers(barId);
+            BarBeer? barBeers = barService.getBarBeers(barId);
             return new OkObjectResult(barBeers);
         }
 

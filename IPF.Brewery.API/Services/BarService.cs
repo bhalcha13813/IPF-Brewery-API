@@ -49,25 +49,25 @@ namespace IPF.Brewery.API.Services
             };
         }
 
-        public List<BarBeer> getBarBeers(int barId)
+        public BarBeer? getBarBeers(int barId)
         {
-            return barRepository.getBarBeers(barId)
-                .Select(b => new BarBeer()
-                {
-                    Bar = new BarResponseModel()
-                    {
-                        Id = b.Id,
-                        BarName = b.BarName,
-                        Address = b.Address,
-                    },
-                    Beers = b.Beer.Select(be => new BeerResponseModel()
-                    {
-                        Id = be.Id,
-                        BeerName = be.BeerName,
-                        PercentageAlcoholByVolume = be.PercentageAlcoholByVolume,
-                        BeerType = be.BeerType.BeerTypeName
-                    }).ToList()
-                }).ToList();
+            Bar? bar = barRepository.getBarBeers(barId);
+            return bar == null ? null : new BarBeer()
+                                        {
+                                                Bar = new BarResponseModel()
+                                                {
+                                                    Id = bar.Id,
+                                                    BarName = bar.BarName,
+                                                    Address = bar.Address,
+                                                },
+                                                Beers = bar.Beer.Select(be => new BeerResponseModel()
+                                                {
+                                                    Id = be.Id,
+                                                    BeerName = be.BeerName,
+                                                    PercentageAlcoholByVolume = be.PercentageAlcoholByVolume,
+                                                    BeerType = be.BeerType.BeerTypeName
+                                                }).ToList()
+                                        };
         }
 
         public List<BarBeer> getAllBarsWithBeers()

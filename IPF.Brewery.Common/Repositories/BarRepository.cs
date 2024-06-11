@@ -26,10 +26,10 @@ namespace IPF.Brewery.Common.Repositories
             return breweryContext.Bar.AsQueryable();
         }
 
-        public IQueryable<Bar> getBarBeers(int barId)
+        public Bar? getBarBeers(int barId)
         {
             return breweryContext.Bar.Include(b => b.Beer)
-                .Where(b => b.Id == barId);
+                .FirstOrDefault(b => b.Id == barId);
         }
 
         public IQueryable<Bar> getAllBarsWithBeers()
