@@ -12,9 +12,14 @@ namespace IPF.Brewery.Common
 
         }
 
-        public DbSet<Models.DTO.Brewery> Brewery { get; set; }
-        public DbSet<Models.DTO.Bar> Bar { get; set; }
-        public DbSet<Models.DTO.Beer> Beer { get; set; }
-        public DbSet<Models.DTO.BeerType> BeerType { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<Models.DTO.Brewery> Brewery { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<Models.DTO.Bar> Bar { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<Models.DTO.Beer> Beer { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<Models.DTO.BeerType> BeerType { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
     }
 }
