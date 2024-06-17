@@ -19,7 +19,7 @@ namespace IPF.Brewery.API.Services
             this.beerTypeRepository = beerTypeRepository;
         }
 
-        public List<BeerTypeResponseModel> getBeerTypes()
+        public List<BeerTypeResponseModel> GetBeerTypes()
         {
            return beerTypeRepository.getBeerTypes()
                   .Select(b => new BeerTypeResponseModel()
@@ -29,12 +29,12 @@ namespace IPF.Brewery.API.Services
                                         }).ToList();
         }
 
-        public ValidationResult validateBeerType(VMBeerType vmBeerType)
+        public ValidationResult ValidateBeerType(VMBeerType vmBeerType)
         {
             return addBeerTypeValidator.Validate(vmBeerType);
         }
 
-        public int addBeerType(BeerTypePayload beerTypePayload)
+        public int AddBeerType(BeerTypePayload beerTypePayload)
         {
             BeerType beerType = new BeerType()
             {
@@ -43,7 +43,7 @@ namespace IPF.Brewery.API.Services
             return beerTypeRepository.addBeerType(beerType);
         }
 
-        public int updateBeerType(int beerTypeId, BeerTypePayload beerTypePayload)
+        public int UpdateBeerType(int beerTypeId, BeerTypePayload beerTypePayload)
         {
             BeerType? beerType = beerTypeRepository.getBeerType(beerTypeId);
 

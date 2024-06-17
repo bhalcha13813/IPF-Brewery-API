@@ -33,7 +33,7 @@ namespace IPF.Brewery.API.UnitTests.Controllers
             var validationMessage = new ValidationFailure("prop1", "error message");
             validationMessage.ErrorCode = HttpStatusCode.BadRequest.ToString();
 
-            A.CallTo(() => fakeBreweryService.validateBrewery(A<VMBrewery>.Ignored))
+            A.CallTo(() => fakeBreweryService.ValidateBrewery(A<VMBrewery>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
             var result = (BadRequestObjectResult) breweryController.AddBrewery(new BreweryPayload());
@@ -45,10 +45,10 @@ namespace IPF.Brewery.API.UnitTests.Controllers
         [Test] 
         public void Test_AddBrewery_Returns_OkResult_When_ValidRequest()
         {
-            A.CallTo(() => fakeBreweryService.validateBrewery(A<VMBrewery>.Ignored))
+            A.CallTo(() => fakeBreweryService.ValidateBrewery(A<VMBrewery>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
-            A.CallTo(() => fakeBreweryService.addBrewery(A<BreweryPayload>.Ignored))
+            A.CallTo(() => fakeBreweryService.AddBrewery(A<BreweryPayload>.Ignored))
                  .Returns(1);
 
             var result = (OkResult) breweryController.AddBrewery(new BreweryPayload());
@@ -58,7 +58,7 @@ namespace IPF.Brewery.API.UnitTests.Controllers
         [Test]
         public void Test_GetBreweries_Returns_OkObjectResult_When_ValidRequest()
         {
-            A.CallTo(() => fakeBreweryService.getBreweries())
+            A.CallTo(() => fakeBreweryService.GetBreweries())
                             .Returns(new List<BreweryResponseModel>() { new BreweryResponseModel() { Id = 1, BreweryName = "TestBrewery", Address = "TestAddress"} });
 
             var result = (OkObjectResult)breweryController.GetBreweries();

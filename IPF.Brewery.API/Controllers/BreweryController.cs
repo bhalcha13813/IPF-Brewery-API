@@ -23,7 +23,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/brewery")]
         public IActionResult GetBreweries()
         {
-           List<BreweryResponseModel> breweries = breweryService.getBreweries();
+           List<BreweryResponseModel> breweries = breweryService.GetBreweries();
            return new OkObjectResult(breweries);
         }
 
@@ -31,7 +31,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/brewery/{breweryId}")]
         public IActionResult GetBrewery(int breweryId)
         {
-            BreweryResponseModel? brewery = breweryService.getBrewery(breweryId);
+            BreweryResponseModel? brewery = breweryService.GetBrewery(breweryId);
             return new OkObjectResult(brewery);
         }
 
@@ -39,7 +39,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/brewery/{breweryId}/beer")]
         public IActionResult GetBreweryBeers(int breweryId)
         {
-            BreweryBeer? breweryBeers = breweryService.getBreweryBeers(breweryId);
+            BreweryBeer? breweryBeers = breweryService.GetBreweryBeers(breweryId);
             return new OkObjectResult(breweryBeers);
         }
 
@@ -47,7 +47,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/brewery/beer")]
         public IActionResult getAllBreweriesWithBeers()
         {
-            List<BreweryBeer> allbreweriesWithBeers = breweryService.getAllBreweriesWithBeers();
+            List<BreweryBeer> allbreweriesWithBeers = breweryService.GetAllBreweriesWithBeers();
             return new OkObjectResult(allbreweriesWithBeers);
         }
 
@@ -56,7 +56,7 @@ namespace IPF.Brewery.API.Controllers
         public IActionResult AddBrewery(BreweryPayload breweryPayload)
         {
             VMBrewery vmBrewery = new VMBrewery() { BreweryName = breweryPayload.BreweryName };
-            ValidationResult validationResult = breweryService.validateBrewery(vmBrewery);
+            ValidationResult validationResult = breweryService.ValidateBrewery(vmBrewery);
 
             if (!validationResult.IsValid)
             {
@@ -73,7 +73,7 @@ namespace IPF.Brewery.API.Controllers
                 }
             }
 
-            breweryService.addBrewery(breweryPayload);
+            breweryService.AddBrewery(breweryPayload);
             return new OkResult();
         }
 
@@ -82,7 +82,7 @@ namespace IPF.Brewery.API.Controllers
         public IActionResult UpdateBrewery(int breweryId, BreweryPayload breweryPayload)
         {
             VMBrewery vmBrewery = new VMBrewery() { Id = breweryId, BreweryName = breweryPayload.BreweryName };
-            ValidationResult validationResult = breweryService.validateBrewery(vmBrewery);
+            ValidationResult validationResult = breweryService.ValidateBrewery(vmBrewery);
 
             if (!validationResult.IsValid)
             {
@@ -99,7 +99,7 @@ namespace IPF.Brewery.API.Controllers
                 }
             }
 
-            breweryService.updateBrewery(breweryId, breweryPayload);
+            breweryService.UpdateBrewery(breweryId, breweryPayload);
             return new OkResult();
         }
 
@@ -108,7 +108,7 @@ namespace IPF.Brewery.API.Controllers
         public IActionResult AddBreweryBeer(BreweryBeerPayload breweryBeerPayload)
         {
             VMBreweryBeer vmBreweryBeer = new VMBreweryBeer() { BreweryId = breweryBeerPayload.BreweryId, BeerId = breweryBeerPayload.BeerId };
-            ValidationResult validationResult = breweryService.validateBreweryBeer(vmBreweryBeer);
+            ValidationResult validationResult = breweryService.ValidateBreweryBeer(vmBreweryBeer);
 
             if (!validationResult.IsValid)
             {
@@ -124,7 +124,7 @@ namespace IPF.Brewery.API.Controllers
                     return BuildBadRequestErrorResponse(errors);
                 }
             }
-            breweryService.addBreweryBeer(breweryBeerPayload);
+            breweryService.AddBreweryBeer(breweryBeerPayload);
             return new OkResult();
         }
     }

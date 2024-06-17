@@ -22,12 +22,12 @@ namespace IPF.Brewery.API.Services
             this.beerRepository = beerRepository;
         }
 
-        public ValidationResult validateBar(VMBar vmBar)
+        public ValidationResult ValidateBar(VMBar vmBar)
         {
             return barValidator.Validate(vmBar);
         }
 
-        public List<BarResponseModel> getBars()
+        public List<BarResponseModel> GetBars()
         {
            return barRepository.getBars()
                                .Select(b => new BarResponseModel()
@@ -38,7 +38,7 @@ namespace IPF.Brewery.API.Services
                                }).ToList();
         }
 
-        public BarResponseModel? getBar(int barId)
+        public BarResponseModel? GetBar(int barId)
         {
             Bar? bar = barRepository.getBar(barId);
             return bar == null ? null : new BarResponseModel()
@@ -49,7 +49,7 @@ namespace IPF.Brewery.API.Services
             };
         }
 
-        public BarBeer? getBarBeers(int barId)
+        public BarBeer? GetBarBeers(int barId)
         {
             Bar? bar = barRepository.getBarBeers(barId);
             return bar == null ? null : new BarBeer()
@@ -70,7 +70,7 @@ namespace IPF.Brewery.API.Services
                                         };
         }
 
-        public List<BarBeer> getAllBarsWithBeers()
+        public List<BarBeer> GetAllBarsWithBeers()
         {
             return barRepository.getAllBarsWithBeers()
                                 .Select(b => new BarBeer()
@@ -91,7 +91,7 @@ namespace IPF.Brewery.API.Services
                                 }).ToList();
         }
 
-        public int addBar(BarPayload barPayload)
+        public int AddBar(BarPayload barPayload)
         {
             Bar bar = new Bar()
             {
@@ -101,7 +101,7 @@ namespace IPF.Brewery.API.Services
             return barRepository.addBar(bar);
         }
 
-        public int updateBar(int barId, BarPayload barPayload)
+        public int UpdateBar(int barId, BarPayload barPayload)
         {
             Bar? bar = barRepository.getBar(barId);
 
@@ -118,12 +118,12 @@ namespace IPF.Brewery.API.Services
             return updatedBars;
         }
 
-        public ValidationResult validateBarBeer(VMBarBeer vmBarBeer)
+        public ValidationResult ValidateBarBeer(VMBarBeer vmBarBeer)
         {
             return barBeerValidator.Validate(vmBarBeer);
         }
 
-        public int addBarBeer(BarBeerPayload barBeerPayload)
+        public int AddBarBeer(BarBeerPayload barBeerPayload)
         {
             Bar? bar = barRepository.getBar(barBeerPayload.BarId);
             Beer? beer = beerRepository.getBeer(barBeerPayload.BeerId);

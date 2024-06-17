@@ -19,7 +19,7 @@ namespace IPF.Brewery.API.Services
             this.beerRepository = beerRepository;
         }
 
-        public BeerResponseModel? getBeer(int beerId)
+        public BeerResponseModel? GetBeer(int beerId)
         {
            Beer? beer =  beerRepository.getBeer(beerId);
 
@@ -32,7 +32,7 @@ namespace IPF.Brewery.API.Services
                                            };
         }
 
-        public List<BeerResponseModel> getBeers()
+        public List<BeerResponseModel> GetBeers()
         {
             return beerRepository.getBeers()
                 .Select(b => new BeerResponseModel()
@@ -44,7 +44,7 @@ namespace IPF.Brewery.API.Services
                 }).ToList();
         }
 
-        public List<BeerResponseModel> getBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume)
+        public List<BeerResponseModel> GetBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume)
         { 
             return beerRepository.getBeers(gtAlcoholByVolume, ltAlcoholByVolume)
                     .Select(b => new BeerResponseModel()
@@ -56,12 +56,12 @@ namespace IPF.Brewery.API.Services
                     }).ToList();
         }
 
-        public ValidationResult validateBeer(VMBeer vmBeer)
+        public ValidationResult ValidateBeer(VMBeer vmBeer)
         {
             return _beerValidator.Validate(vmBeer);
         }
 
-        public int addBeer(BeerPayload beerPayload)
+        public int AddBeer(BeerPayload beerPayload)
         {
             Beer beer = new Beer()
             {
@@ -72,7 +72,7 @@ namespace IPF.Brewery.API.Services
             return beerRepository.addBeer(beer);
         }
 
-        public int updateBeer(int beerId, BeerPayload beerPayload)
+        public int UpdateBeer(int beerId, BeerPayload beerPayload)
         {
             Beer? beer = beerRepository.getBeer(beerId);
             

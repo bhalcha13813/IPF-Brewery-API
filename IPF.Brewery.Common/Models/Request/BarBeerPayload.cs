@@ -5,11 +5,6 @@ namespace IPF.Brewery.Common.Models.Request
     [ExcludeFromCodeCoverage]
     public class BarBeerPayload
     {
-        public BarBeerPayload()
-        {
-            
-        }
-
         public int BarId { get; set; }
         public int BeerId { get; set; }
     }

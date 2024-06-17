@@ -39,7 +39,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             A.CallTo(() => fakeBarValidator.Validate(A<VMBar>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
-            var result =  barService.validateBar(new VMBar());
+            var result =  barService.ValidateBar(new VMBar());
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("error message", result.Errors.Single().ErrorMessage);
         }
@@ -50,7 +50,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             A.CallTo(() => fakeBarValidator.Validate(A<VMBar>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
-            var result = barService.validateBar(new VMBar());
+            var result = barService.ValidateBar(new VMBar());
             Assert.IsTrue(result.IsValid);
         }
 
@@ -60,7 +60,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             A.CallTo(() => fakeBarRepository.getBars())
                             .Returns((new List<Bar>() { new Bar() { Id = 1, BarName = "TestBar", Address = "TestAddress" } }).AsQueryable());
 
-            List<BarResponseModel> bars = barService.getBars();
+            List<BarResponseModel> bars = barService.GetBars();
             Assert.IsInstanceOf<List<BarResponseModel>>(bars);
             Assert.AreEqual(1,bars.Count);
         }

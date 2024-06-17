@@ -38,7 +38,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             A.CallTo(() => fakeBreweryValidator.Validate(A<VMBrewery>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
-            var result =  breweryService.validateBrewery(new VMBrewery());
+            var result =  breweryService.ValidateBrewery(new VMBrewery());
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("error message", result.Errors.Single().ErrorMessage);
         }
@@ -49,7 +49,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             A.CallTo(() => fakeBreweryValidator.Validate(A<VMBrewery>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
-            var result = breweryService.validateBrewery(new VMBrewery());
+            var result = breweryService.ValidateBrewery(new VMBrewery());
             Assert.IsTrue(result.IsValid);
         }
 
@@ -59,7 +59,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             A.CallTo(() => fakeBreweryRepository.getBreweries())
                             .Returns((new List<Common.Models.DTO.Brewery>() { new Common.Models.DTO.Brewery() { Id = 1, BreweryName = "TestBrewery", Address = "TestAddress" } }).AsQueryable());
 
-            List<BreweryResponseModel> breweries = breweryService.getBreweries();
+            List<BreweryResponseModel> breweries = breweryService.GetBreweries();
             Assert.IsInstanceOf<List<BreweryResponseModel>>(breweries);
             Assert.AreEqual(1, breweries.Count);
         }

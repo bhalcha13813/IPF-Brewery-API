@@ -33,7 +33,7 @@ namespace IPF.Brewery.API.UnitTests.Controllers
             var validationMessage = new ValidationFailure("prop1", "error message");
             validationMessage.ErrorCode = HttpStatusCode.BadRequest.ToString();
 
-            A.CallTo(() => fakeBarService.validateBar(A<VMBar>.Ignored))
+            A.CallTo(() => fakeBarService.ValidateBar(A<VMBar>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
             var result = (BadRequestObjectResult) barController.AddBar(new BarPayload());
@@ -45,10 +45,10 @@ namespace IPF.Brewery.API.UnitTests.Controllers
         [Test] 
         public void Test_AddBar_Returns_OkResult_When_ValidRequest()
         {
-            A.CallTo(() => fakeBarService.validateBar(A<VMBar>.Ignored))
+            A.CallTo(() => fakeBarService.ValidateBar(A<VMBar>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
-            A.CallTo(() => fakeBarService.addBar(A<BarPayload>.Ignored))
+            A.CallTo(() => fakeBarService.AddBar(A<BarPayload>.Ignored))
                  .Returns(1);
 
             var result = (OkResult) barController.AddBar(new BarPayload());
@@ -58,7 +58,7 @@ namespace IPF.Brewery.API.UnitTests.Controllers
         [Test]
         public void Test_GetBars_Returns_OkObjectResult_When_ValidRequest()
         {
-            A.CallTo(() => fakeBarService.getBars())
+            A.CallTo(() => fakeBarService.GetBars())
                             .Returns(new List<BarResponseModel>() { new BarResponseModel() { Id = 1, BarName = "TestBar", Address = "TestAddress"} });
 
             var result = (OkObjectResult)barController.GetBars();

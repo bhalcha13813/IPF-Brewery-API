@@ -23,7 +23,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/bar")]
         public IActionResult GetBars()
         {
-           List<BarResponseModel> bars = barService.getBars();
+           List<BarResponseModel> bars = barService.GetBars();
            return new OkObjectResult(bars);
         }
 
@@ -31,7 +31,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/bar/{barId}")]
         public IActionResult GetBar(int barId)
         {
-            BarResponseModel? bar = barService.getBar(barId);
+            BarResponseModel? bar = barService.GetBar(barId);
             return new OkObjectResult(bar);
         }
 
@@ -39,7 +39,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/bar/{barId}/beer")]
         public IActionResult GetBarBeers(int barId)
         {
-            BarBeer? barBeers = barService.getBarBeers(barId);
+            BarBeer? barBeers = barService.GetBarBeers(barId);
             return new OkObjectResult(barBeers);
         }
 
@@ -47,7 +47,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/bar/beer")]
         public IActionResult getAllBarsWithBeers()
         {
-            List<BarBeer> allBarsWithBeers = barService.getAllBarsWithBeers();
+            List<BarBeer> allBarsWithBeers = barService.GetAllBarsWithBeers();
             return new OkObjectResult(allBarsWithBeers);
         }
 
@@ -56,7 +56,7 @@ namespace IPF.Brewery.API.Controllers
         public IActionResult AddBar(BarPayload barPayload)
         {
             VMBar vmBar = new VMBar() { BarName = barPayload.BarName};
-            ValidationResult validationResult = barService.validateBar(vmBar);
+            ValidationResult validationResult = barService.ValidateBar(vmBar);
 
             if (!validationResult.IsValid)
             {
@@ -72,7 +72,7 @@ namespace IPF.Brewery.API.Controllers
                     return BuildBadRequestErrorResponse(errors);
                 }
             }
-            barService.addBar(barPayload);
+            barService.AddBar(barPayload);
             return new OkResult();
         }
 
@@ -81,7 +81,7 @@ namespace IPF.Brewery.API.Controllers
         public IActionResult UpdateBar(int barId, BarPayload barPayload)
         {
             VMBar vmBar = new VMBar() { Id = barId, BarName = barPayload.BarName };
-            ValidationResult validationResult = barService.validateBar(vmBar);
+            ValidationResult validationResult = barService.ValidateBar(vmBar);
 
             if (!validationResult.IsValid)
             {
@@ -97,7 +97,7 @@ namespace IPF.Brewery.API.Controllers
                     return BuildBadRequestErrorResponse(errors);
                 }
             }
-            barService.updateBar(barId, barPayload);
+            barService.UpdateBar(barId, barPayload);
             return new OkResult();
         }
 
@@ -106,7 +106,7 @@ namespace IPF.Brewery.API.Controllers
         public IActionResult AddBarBeer(BarBeerPayload barBeerPayload)
         {
             VMBarBeer vmBarBeer = new VMBarBeer() { BarId = barBeerPayload.BarId, BeerId = barBeerPayload.BeerId};
-            ValidationResult validationResult = barService.validateBarBeer(vmBarBeer);
+            ValidationResult validationResult = barService.ValidateBarBeer(vmBarBeer);
 
             if (!validationResult.IsValid)
             {
@@ -122,7 +122,7 @@ namespace IPF.Brewery.API.Controllers
                     return BuildBadRequestErrorResponse(errors);
                 }
             }
-            barService.addBarBeer(barBeerPayload);
+            barService.AddBarBeer(barBeerPayload);
             return new OkResult();
         }
     }

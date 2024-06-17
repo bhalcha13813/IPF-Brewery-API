@@ -26,12 +26,12 @@ namespace IPF.Brewery.API.Services
             this.beerRepository = beerRepository;
         }
 
-        public ValidationResult validateBrewery(VMBrewery vmBrewery)
+        public ValidationResult   ValidateBrewery(VMBrewery vmBrewery)
         {
             return breweryValidator.Validate(vmBrewery);
         }
 
-        public List<BreweryResponseModel> getBreweries()
+        public List<BreweryResponseModel> GetBreweries()
         {
             return breweryRepository.getBreweries().Select(b => new BreweryResponseModel()
             {
@@ -41,7 +41,7 @@ namespace IPF.Brewery.API.Services
             }).ToList();
         }
 
-        public BreweryResponseModel? getBrewery(int breweryId)
+        public BreweryResponseModel? GetBrewery(int breweryId)
         {
             Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryId);
             return brewery == null ? null : new BreweryResponseModel()
@@ -52,7 +52,7 @@ namespace IPF.Brewery.API.Services
             };
         }
 
-        public BreweryBeer? getBreweryBeers(int breweryId)
+        public BreweryBeer? GetBreweryBeers(int breweryId)
         {
             Common.Models.DTO.Brewery? brewery = breweryRepository.getBreweryBeers(breweryId);
             return brewery == null ? null : new BreweryBeer()
@@ -73,7 +73,7 @@ namespace IPF.Brewery.API.Services
                                             };
         }
 
-        public List<BreweryBeer> getAllBreweriesWithBeers()
+        public List<BreweryBeer> GetAllBreweriesWithBeers()
         {
             return breweryRepository.getAllBreweriesWithBeers().Select(b => new BreweryBeer()
             {
@@ -93,7 +93,7 @@ namespace IPF.Brewery.API.Services
             }).ToList();
         }
 
-        public int addBrewery(BreweryPayload breweryPayload)
+        public int AddBrewery(BreweryPayload breweryPayload)
         {
             Common.Models.DTO.Brewery brewery = new Common.Models.DTO.Brewery()
             {
@@ -103,7 +103,7 @@ namespace IPF.Brewery.API.Services
             return breweryRepository.addBrewery(brewery);
         }
 
-        public int updateBrewery(int breweryId, BreweryPayload breweryPayload)
+        public int UpdateBrewery(int breweryId, BreweryPayload breweryPayload)
         {
             Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryId);
 
@@ -120,12 +120,12 @@ namespace IPF.Brewery.API.Services
             return updatedBreweries;
         }
 
-        public ValidationResult validateBreweryBeer(VMBreweryBeer vmBreweryBeer)
+        public ValidationResult ValidateBreweryBeer(VMBreweryBeer vmBreweryBeer)
         {
             return breweryBeerValidator.Validate(vmBreweryBeer);
         }
 
-        public int addBreweryBeer(BreweryBeerPayload breweryBeerPayload)
+        public int AddBreweryBeer(BreweryBeerPayload breweryBeerPayload)
         {
             Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryBeerPayload.BreweryId);
             Beer? beer = beerRepository.getBeer(breweryBeerPayload.BeerId);

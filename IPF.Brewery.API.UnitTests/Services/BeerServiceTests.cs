@@ -35,7 +35,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             A.CallTo(() => fakeBeerValidator.Validate(A<VMBeer>.Ignored))
                             .Returns(new ValidationResult(new List<ValidationFailure> { validationMessage }));
 
-            var result = beerService.validateBeer(new VMBeer());
+            var result = beerService.ValidateBeer(new VMBeer());
             Assert.IsFalse(result.IsValid);
             Assert.AreEqual("error message", result.Errors.Single().ErrorMessage);
         }
@@ -46,7 +46,7 @@ namespace IPF.Brewery.API.UnitTests.Services
             A.CallTo(() => fakeBeerValidator.Validate(A<VMBeer>.Ignored))
                  .Returns(new ValidationResult(new List<ValidationFailure>()));
 
-            var result = beerService.validateBeer(new VMBeer());
+            var result = beerService.ValidateBeer(new VMBeer());
             Assert.IsTrue(result.IsValid);
         }
 
@@ -57,7 +57,7 @@ namespace IPF.Brewery.API.UnitTests.Services
                             .Returns((new List<Beer>() { new Beer() { Id = 1, BeerName = "TestBeer", PercentageAlcoholByVolume = 5.5M, BeerTypeId = 1, 
                                               BeerType = new BeerType() {Id = 1, BeerTypeName = "Beer Type"} } }).AsQueryable());
 
-            List<BeerResponseModel> beers = beerService.getBeers(5.0M, 6.5M);
+            List<BeerResponseModel> beers = beerService.GetBeers(5.0M, 6.5M);
             Assert.IsInstanceOf<List<BeerResponseModel>>(beers);
             Assert.AreEqual(1, beers.Count);
         }

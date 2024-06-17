@@ -21,7 +21,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/Beer/{beerId}")]
         public IActionResult GetBeer(int beerId)
         {
-            BeerResponseModel? beer = beerService.getBeer(beerId);
+            BeerResponseModel? beer = beerService.GetBeer(beerId);
             return new OkObjectResult(beer);
         }
 
@@ -29,7 +29,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/Beer/All")]
         public IActionResult GetBeers()
         {
-            List<BeerResponseModel> beers = beerService.getBeers();
+            List<BeerResponseModel> beers = beerService.GetBeers();
             return new OkObjectResult(beers);
         }
 
@@ -37,7 +37,7 @@ namespace IPF.Brewery.API.Controllers
         [Route("/Beer")]
         public IActionResult GetBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume)
         {
-            List<BeerResponseModel> beers = beerService.getBeers(gtAlcoholByVolume, ltAlcoholByVolume);
+            List<BeerResponseModel> beers = beerService.GetBeers(gtAlcoholByVolume, ltAlcoholByVolume);
             return new OkObjectResult(beers);
         }
 
@@ -46,7 +46,7 @@ namespace IPF.Brewery.API.Controllers
         public IActionResult AddBeer(BeerPayload beerPayload)
         {
             VMBeer vmBeer = new VMBeer() { BeerName = beerPayload.BeerName, BeerTypeId = beerPayload.BeerTypeId};
-            ValidationResult validationResult = beerService.validateBeer(vmBeer);
+            ValidationResult validationResult = beerService.ValidateBeer(vmBeer);
 
             if (!validationResult.IsValid)
             {
@@ -62,7 +62,7 @@ namespace IPF.Brewery.API.Controllers
                     return BuildBadRequestErrorResponse(errors);
                 }
             }
-            beerService.addBeer(beerPayload);
+            beerService.AddBeer(beerPayload);
             return new OkResult();
         }
 
@@ -71,7 +71,7 @@ namespace IPF.Brewery.API.Controllers
         public IActionResult UpdateBeer(int beerId, BeerPayload beerPayload)
         {
             VMBeer vmBeer = new VMBeer() { Id = beerId, BeerName = beerPayload.BeerName, BeerTypeId = beerPayload.BeerTypeId };
-            ValidationResult validationResult = beerService.validateBeer(vmBeer);
+            ValidationResult validationResult = beerService.ValidateBeer(vmBeer);
 
             if (!validationResult.IsValid)
             {
@@ -87,7 +87,7 @@ namespace IPF.Brewery.API.Controllers
                     return BuildBadRequestErrorResponse(errors);
                 }
             }
-            beerService.updateBeer(beerId, beerPayload);
+            beerService.UpdateBeer(beerId, beerPayload);
             return new OkResult();
         }
     }
