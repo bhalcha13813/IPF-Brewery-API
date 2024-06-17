@@ -3,7 +3,7 @@ using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 
-namespace IPF.Brewery.API.Services
+namespace IPF.Brewery.API.Service
 {
     public interface IBeerTypeService
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using IPF.Brewery.API.Filters;
-using IPF.Brewery.API.Services;
+using IPF.Brewery.API.Service;
 using IPF.Brewery.API.Validation;
 using IPF.Brewery.Common.Configuration;
 using IPF.Brewery.Common.Repositories;

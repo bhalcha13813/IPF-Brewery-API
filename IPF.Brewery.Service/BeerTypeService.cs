@@ -6,7 +6,7 @@ using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using IPF.Brewery.Common.Repositories;
 
-namespace IPF.Brewery.API.Services
+namespace IPF.Brewery.API.Service
 {
     public class BeerTypeService : IBeerTypeService
     {
@@ -19,6 +19,10 @@ namespace IPF.Brewery.API.Services
             this.beerTypeRepository = beerTypeRepository;
         }
 
+        /// <summary>
+        /// This method is used to get all beer types from database.
+        /// </summary>
+        /// <returns>List of beer types</returns>
         public List<BeerTypeResponseModel> GetBeerTypes()
         {
            return beerTypeRepository.getBeerTypes()
@@ -29,11 +33,20 @@ namespace IPF.Brewery.API.Services
                                         }).ToList();
         }
 
+        /// <summary>
+        /// This method is used to validate beer type provided before add/update.
+        /// </summary>
+        /// <returns>validation result</returns>
         public ValidationResult ValidateBeerType(VMBeerType vmBeerType)
         {
             return addBeerTypeValidator.Validate(vmBeerType);
         }
 
+        /// <summary>
+        /// This method is used to add new beer type in database.
+        /// </summary>
+        /// <param name="beerTypePayload"></param>
+        /// <returns>number of beer types added</returns>
         public int AddBeerType(BeerTypePayload beerTypePayload)
         {
             BeerType beerType = new BeerType()
@@ -43,6 +56,12 @@ namespace IPF.Brewery.API.Services
             return beerTypeRepository.addBeerType(beerType);
         }
 
+        /// <summary>
+        /// This method is used to update existing beer type in database.
+        /// </summary>
+        /// <param name="beerTypeId"></param>
+        /// <param name="beerTypePayload"></param>
+        /// <returns>number of beer types updated</returns>
         public int UpdateBeerType(int beerTypeId, BeerTypePayload beerTypePayload)
         {
             BeerType? beerType = beerTypeRepository.getBeerType(beerTypeId);

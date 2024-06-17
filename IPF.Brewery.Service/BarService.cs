@@ -6,7 +6,7 @@ using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using IPF.Brewery.Common.Repositories;
 
-namespace IPF.Brewery.API.Services
+namespace IPF.Brewery.API.Service
 {
     public class BarService : IBarService
     {
@@ -22,11 +22,10 @@ namespace IPF.Brewery.API.Services
             this.beerRepository = beerRepository;
         }
 
-        public ValidationResult ValidateBar(VMBar vmBar)
-        {
-            return barValidator.Validate(vmBar);
-        }
-
+        /// <summary>
+        /// This method is used to get all bars from database.
+        /// </summary>
+        /// <returns>List of bars</returns>
         public List<BarResponseModel> GetBars()
         {
            return barRepository.getBars()
@@ -38,6 +37,11 @@ namespace IPF.Brewery.API.Services
                                }).ToList();
         }
 
+        /// <summary>
+        /// This method is used to get specific bar that matches with provided barId.
+        /// </summary>
+        /// <param name="barId"></param>
+        /// <returns>bar</returns>
         public BarResponseModel? GetBar(int barId)
         {
             Bar? bar = barRepository.getBar(barId);
@@ -49,6 +53,11 @@ namespace IPF.Brewery.API.Services
             };
         }
 
+        /// <summary>
+        /// This method is used to get bar with its beers that matches with provided barId.
+        /// </summary>
+        /// <param name="barId"></param>
+        /// <returns>BarBeers</returns>
         public BarBeer? GetBarBeers(int barId)
         {
             Bar? bar = barRepository.getBarBeers(barId);
@@ -70,6 +79,10 @@ namespace IPF.Brewery.API.Services
                                         };
         }
 
+        /// <summary>
+        /// This method is used to get all bars with respective beers.
+        /// </summary>
+        /// <returns>BarBeers</returns>
         public List<BarBeer> GetAllBarsWithBeers()
         {
             return barRepository.getAllBarsWithBeers()
@@ -91,6 +104,20 @@ namespace IPF.Brewery.API.Services
                                 }).ToList();
         }
 
+        /// <summary>
+        /// This method is used to validate bar details provided before add/update.
+        /// </summary>
+        /// <returns>validation result</returns>
+        public ValidationResult ValidateBar(VMBar vmBar)
+        {
+            return barValidator.Validate(vmBar);
+        }
+
+        /// <summary>
+        /// This method is used to add new bar in database.
+        /// </summary>
+        /// <param name="barPayload"></param>
+        /// <returns>number of bars added</returns>
         public int AddBar(BarPayload barPayload)
         {
             Bar bar = new Bar()
@@ -101,6 +128,12 @@ namespace IPF.Brewery.API.Services
             return barRepository.addBar(bar);
         }
 
+        /// <summary>
+        /// This method is used to update existing bar in database.
+        /// </summary>
+        /// <param name="barId"></param>
+        /// <param name="barPayload"></param>
+        /// <returns>number of bars updated</returns>
         public int UpdateBar(int barId, BarPayload barPayload)
         {
             Bar? bar = barRepository.getBar(barId);
@@ -118,11 +151,21 @@ namespace IPF.Brewery.API.Services
             return updatedBars;
         }
 
+        /// <summary>
+        /// This method is used to validate BarBeer before mapping.
+        /// </summary>
+        /// <param name="vmBarBeer"></param>
+        /// <returns>validation result</returns>
         public ValidationResult ValidateBarBeer(VMBarBeer vmBarBeer)
         {
             return barBeerValidator.Validate(vmBarBeer);
         }
 
+        /// <summary>
+        /// This method is used to map Bar & Beer.
+        /// </summary>
+        /// <param name="barBeerPayload"></param>
+        /// <returns>number of bar beers mapped</returns>
         public int AddBarBeer(BarBeerPayload barBeerPayload)
         {
             Bar? bar = barRepository.getBar(barBeerPayload.BarId);

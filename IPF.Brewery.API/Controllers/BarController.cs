@@ -1,6 +1,6 @@
 ﻿using FluentValidation.Results;
 using IPF.Brewery.API.Extension;
-using IPF.Brewery.API.Services;
+using IPF.Brewery.API.Service;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;

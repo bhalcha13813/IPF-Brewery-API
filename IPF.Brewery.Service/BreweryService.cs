@@ -6,7 +6,7 @@ using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using IPF.Brewery.Common.Repositories;
 
-namespace IPF.Brewery.API.Services
+namespace IPF.Brewery.API.Service
 {
     public class BreweryService : IBreweryService
     {
@@ -26,11 +26,10 @@ namespace IPF.Brewery.API.Services
             this.beerRepository = beerRepository;
         }
 
-        public ValidationResult   ValidateBrewery(VMBrewery vmBrewery)
-        {
-            return breweryValidator.Validate(vmBrewery);
-        }
-
+        /// <summary>
+        /// This method is used to get all breweries from database.
+        /// </summary>
+        /// <returns>List of breweries</returns>
         public List<BreweryResponseModel> GetBreweries()
         {
             return breweryRepository.getBreweries().Select(b => new BreweryResponseModel()
@@ -41,6 +40,11 @@ namespace IPF.Brewery.API.Services
             }).ToList();
         }
 
+        /// <summary>
+        /// This method is used to get specific brewery that matches with provided BreweryId.
+        /// </summary>
+        /// <param name="breweryId"></param>
+        /// <returns>brewery</returns>
         public BreweryResponseModel? GetBrewery(int breweryId)
         {
             Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryId);
@@ -52,6 +56,11 @@ namespace IPF.Brewery.API.Services
             };
         }
 
+        /// <summary>
+        /// This method is used to get brewery with its beers that matches with provided BreweryId.
+        /// </summary>
+        /// <param name="breweryId"></param>
+        /// <returns>BreweryBeers</returns>
         public BreweryBeer? GetBreweryBeers(int breweryId)
         {
             Common.Models.DTO.Brewery? brewery = breweryRepository.getBreweryBeers(breweryId);
@@ -73,6 +82,10 @@ namespace IPF.Brewery.API.Services
                                             };
         }
 
+        /// <summary>
+        /// This method is used to get all breweries with respective beers.
+        /// </summary>
+        /// <returns>BreweryBeers</returns>
         public List<BreweryBeer> GetAllBreweriesWithBeers()
         {
             return breweryRepository.getAllBreweriesWithBeers().Select(b => new BreweryBeer()
@@ -93,6 +106,20 @@ namespace IPF.Brewery.API.Services
             }).ToList();
         }
 
+        /// <summary>
+        /// This method is used to validate brewery details provided before add/update.
+        /// </summary>
+        /// <returns>validation result</returns>
+        public ValidationResult ValidateBrewery(VMBrewery vmBrewery)
+        {
+            return breweryValidator.Validate(vmBrewery);
+        }
+
+        /// <summary>
+        /// This method is used to add new brewery in database.
+        /// </summary>
+        /// <param name="breweryPayload"></param>
+        /// <returns>number of breweries added</returns>
         public int AddBrewery(BreweryPayload breweryPayload)
         {
             Common.Models.DTO.Brewery brewery = new Common.Models.DTO.Brewery()
@@ -103,6 +130,12 @@ namespace IPF.Brewery.API.Services
             return breweryRepository.addBrewery(brewery);
         }
 
+        /// <summary>
+        /// This method is used to update existing brewery in database.
+        /// </summary>
+        /// <param name="breweryId"></param>
+        /// <param name="breweryPayload"></param>
+        /// <returns>number of breweries updated</returns>
         public int UpdateBrewery(int breweryId, BreweryPayload breweryPayload)
         {
             Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryId);
@@ -120,11 +153,21 @@ namespace IPF.Brewery.API.Services
             return updatedBreweries;
         }
 
+        /// <summary>
+        /// This method is used to validate BreweryBeer before mapping.
+        /// </summary>
+        /// <param name="vmBreweryBeer"></param>
+        /// <returns>validation result</returns>
         public ValidationResult ValidateBreweryBeer(VMBreweryBeer vmBreweryBeer)
         {
             return breweryBeerValidator.Validate(vmBreweryBeer);
         }
 
+        /// <summary>
+        /// This method is used to map Brewery & Beer.
+        /// </summary>
+        /// <param name="breweryBeerPayload"></param>
+        /// <returns>number of brewery beers mapped</returns>
         public int AddBreweryBeer(BreweryBeerPayload breweryBeerPayload)
         {
             Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryBeerPayload.BreweryId);
