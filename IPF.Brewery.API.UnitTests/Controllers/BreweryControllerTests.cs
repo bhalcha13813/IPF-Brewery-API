@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Castle.Core.Logging;
 using FakeItEasy;
 using FluentValidation.Results;
 using IPF.Brewery.API.Controllers;
@@ -8,6 +9,7 @@ using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace IPF.Brewery.API.UnitTests.Controllers
 {
@@ -16,15 +18,17 @@ namespace IPF.Brewery.API.UnitTests.Controllers
     {
         private BreweryController breweryController;
         private IHttpContextAccessor fakeHttpContextAccessor;
+        private ILogger<BreweryController> fakeLogger;
         private IBreweryService fakeBreweryService;
 
         [SetUp]
         public void Setup()
         {
             fakeHttpContextAccessor = A.Fake<IHttpContextAccessor>();
+            fakeLogger = A.Fake<ILogger<BreweryController>>();
             fakeBreweryService = A.Fake<IBreweryService>();
             A.CallTo(() => fakeHttpContextAccessor.HttpContext).Returns(new DefaultHttpContext());
-            breweryController = new BreweryController(fakeHttpContextAccessor, fakeBreweryService);
+            breweryController = new BreweryController(fakeHttpContextAccessor, fakeLogger, fakeBreweryService);
         }
 
         [Test]

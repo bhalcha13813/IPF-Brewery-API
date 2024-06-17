@@ -8,6 +8,7 @@ using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace IPF.Brewery.API.UnitTests.Controllers
 {
@@ -16,15 +17,17 @@ namespace IPF.Brewery.API.UnitTests.Controllers
     {
         private BarController barController;
         private IHttpContextAccessor fakeHttpContextAccessor;
+        private ILogger<BarController> fakeLogger;
         private IBarService fakeBarService;
 
         [SetUp]
         public void Setup()
         {
             fakeHttpContextAccessor = A.Fake<IHttpContextAccessor>();
+            fakeLogger = A.Fake<ILogger<BarController>>();
             fakeBarService = A.Fake<IBarService>();
             A.CallTo(() => fakeHttpContextAccessor.HttpContext).Returns(new DefaultHttpContext());
-            barController = new BarController(fakeHttpContextAccessor, fakeBarService);
+            barController = new BarController(fakeHttpContextAccessor, fakeLogger, fakeBarService);
         }
 
         [Test]

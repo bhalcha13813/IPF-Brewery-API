@@ -8,6 +8,7 @@ using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace IPF.Brewery.API.UnitTests.Controllers
 {
@@ -16,15 +17,17 @@ namespace IPF.Brewery.API.UnitTests.Controllers
     {
         private BeerController beerController;
         private IHttpContextAccessor fakeHttpContextAccessor;
+        private ILogger<BeerController> fakeLogger;
         private IBeerService fakeBeerService;
 
         [SetUp]
         public void Setup()
         {
             fakeHttpContextAccessor = A.Fake<IHttpContextAccessor>();
+            fakeLogger = A.Fake<ILogger<BeerController>>();
             fakeBeerService = A.Fake<IBeerService>();
             A.CallTo(() => fakeHttpContextAccessor.HttpContext).Returns(new DefaultHttpContext());
-            beerController = new BeerController(fakeHttpContextAccessor, fakeBeerService);
+            beerController = new BeerController(fakeHttpContextAccessor, fakeLogger, fakeBeerService);
         }
 
         [Test]
@@ -65,6 +68,5 @@ namespace IPF.Brewery.API.UnitTests.Controllers
             Assert.IsInstanceOf<OkObjectResult>(result);
             Assert.AreEqual(1,((List<BeerResponseModel>?)result.Value).Count);
         }
-
     }
 }
