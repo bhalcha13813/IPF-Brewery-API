@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using AutoMapper;
+using FluentValidation.Results;
 using IPF.Brewery.API.Validation;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
@@ -14,12 +15,19 @@ namespace IPF.Brewery.API.Service
         private readonly IBarBeerValidator barBeerValidator;
         private readonly IBarRepository barRepository;
         private readonly IBeerRepository beerRepository;
-        public BarService(IBarValidator barValidator, IBarBeerValidator barBeerValidator, IBarRepository barRepository, IBeerRepository beerRepository)
+        private readonly IMapper mapper;
+
+        public BarService(IBarValidator barValidator, 
+                            IBarBeerValidator barBeerValidator, 
+                            IBarRepository barRepository, 
+                            IBeerRepository beerRepository,
+                            IMapper mapper)
         {
             this.barValidator = barValidator;
             this.barBeerValidator = barBeerValidator;
             this.barRepository = barRepository;
             this.beerRepository = beerRepository;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -28,13 +36,9 @@ namespace IPF.Brewery.API.Service
         /// <returns>List of bars</returns>
         public List<BarResponseModel> GetBars()
         {
-           return barRepository.getBars()
-                               .Select(b => new BarResponseModel()
-                               {
-                                   Id = b.Id,
-                                   BarName = b.BarName,
-                                   Address = b.Address
-                               }).ToList();
+           return barRepository.GetBars()
+                               .Select(b => mapper.Map<BarResponseModel>(b))
+                               .ToList();
         }
 
         /// <summary>
@@ -44,13 +48,8 @@ namespace IPF.Brewery.API.Service
         /// <returns>bar</returns>
         public BarResponseModel? GetBar(int barId)
         {
-            Bar? bar = barRepository.getBar(barId);
-            return bar == null ? null : new BarResponseModel()
-            {
-                Id = bar.Id,
-                BarName = bar.BarName,
-                Address = bar.Address
-            };
+            Bar? bar = barRepository.GetBar(barId);
+            return mapper.Map<BarResponseModel>(bar);
         }
 
         /// <summary>
@@ -60,23 +59,9 @@ namespace IPF.Brewery.API.Service
         /// <returns>BarBeers</returns>
         public BarBeer? GetBarBeers(int barId)
         {
-            Bar? bar = barRepository.getBarBeers(barId);
-            return bar == null ? null : new BarBeer()
-                                        {
-                                                Bar = new BarResponseModel()
-                                                {
-                                                    Id = bar.Id,
-                                                    BarName = bar.BarName,
-                                                    Address = bar.Address,
-                                                },
-                                                Beers = bar.Beer.Select(be => new BeerResponseModel()
-                                                {
-                                                    Id = be.Id,
-                                                    BeerName = be.BeerName,
-                                                    PercentageAlcoholByVolume = be.PercentageAlcoholByVolume,
-                                                    BeerType = be.BeerType.BeerTypeName
-                                                }).ToList()
-                                        };
+            Bar? bar = barRepository.GetBarBeers(barId);
+            BarBeer? barBeers = mapper.Map<BarBeer>(bar);
+            return barBeers;
         }
 
         /// <summary>
@@ -85,23 +70,7 @@ namespace IPF.Brewery.API.Service
         /// <returns>BarBeers</returns>
         public List<BarBeer> GetAllBarsWithBeers()
         {
-            return barRepository.getAllBarsWithBeers()
-                                .Select(b => new BarBeer()
-                                {
-                                    Bar = new BarResponseModel()
-                                    {
-                                        Id = b.Id,
-                                        BarName = b.BarName,
-                                        Address = b.Address
-                                    },
-                                    Beers = b.Beer.Select(be => new BeerResponseModel()
-                                    {
-                                        Id = be.Id,
-                                        BeerName = be.BeerName,
-                                        PercentageAlcoholByVolume = be.PercentageAlcoholByVolume,
-                                        BeerType = be.BeerType.BeerTypeName
-                                    }).ToList()
-                                }).ToList();
+            return barRepository.GetAllBarsWithBeers().Select(b => mapper.Map<BarBeer>(b)).ToList();
         }
 
         /// <summary>
@@ -120,12 +89,8 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of bars added</returns>
         public int AddBar(BarPayload barPayload)
         {
-            Bar bar = new Bar()
-            {
-                BarName = barPayload.BarName,
-                Address = barPayload.Address
-            };
-            return barRepository.addBar(bar);
+            Bar? bar = mapper.Map<Bar>(barPayload);
+            return barRepository.AddBar(bar);
         }
 
         /// <summary>
@@ -136,7 +101,7 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of bars updated</returns>
         public int UpdateBar(int barId, BarPayload barPayload)
         {
-            Bar? bar = barRepository.getBar(barId);
+            Bar? bar = barRepository.GetBar(barId);
 
             int updatedBars = 0;
 
@@ -145,7 +110,7 @@ namespace IPF.Brewery.API.Service
                 bar.BarName = barPayload.BarName;
                 bar.Address = barPayload.Address;
 
-                updatedBars = barRepository.updateBar(bar);
+                updatedBars = barRepository.UpdateBar(bar);
             }
 
             return updatedBars;
@@ -168,15 +133,15 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of bar beers mapped</returns>
         public int AddBarBeer(BarBeerPayload barBeerPayload)
         {
-            Bar? bar = barRepository.getBar(barBeerPayload.BarId);
-            Beer? beer = beerRepository.getBeer(barBeerPayload.BeerId);
+            Bar? bar = barRepository.GetBar(barBeerPayload.BarId);
+            Beer? beer = beerRepository.GetBeer(barBeerPayload.BeerId);
 
             int updatedBarBeer = 0;
 
             if (bar != null && beer != null)
             {
                 bar.Beer.Add(beer);
-                updatedBarBeer = barRepository.updateBar(bar);
+                updatedBarBeer = barRepository.UpdateBar(bar);
             }
             return updatedBarBeer;
         }

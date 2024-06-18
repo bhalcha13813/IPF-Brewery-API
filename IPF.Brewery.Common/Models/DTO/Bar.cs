@@ -4,7 +4,7 @@
     {
         public Bar()
         {
-            this.Beer = new HashSet<Beer>();
+            Beer = new HashSet<Beer>();
         }
 
         public int Id { get; set; }

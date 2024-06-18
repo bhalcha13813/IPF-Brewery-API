@@ -3,8 +3,6 @@ using IPF.Brewery.API.Filters;
 using IPF.Brewery.Common.Logging;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System.Runtime.ConstrainedExecution;
 
 namespace IPF.Brewery.API.Controllers
 {

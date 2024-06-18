@@ -43,7 +43,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (beerType == null)
             {
-                beerType = beerTypeRepository.getBeerType(vmBeerType.BeerType);
+                beerType = beerTypeRepository.GetBeerType(vmBeerType.BeerType);
 
                 if (beerType != null && vmBeerType.Id != null)
                 {

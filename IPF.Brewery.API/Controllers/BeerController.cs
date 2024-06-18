@@ -3,7 +3,6 @@ using IPF.Brewery.API.Extension;
 using IPF.Brewery.API.Service;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Logging;
-using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +23,7 @@ namespace IPF.Brewery.API.Controllers
 
         [HttpGet]
         [Route("/Beer/{beerId}")]
-        public IActionResult GetBeer(int beerId)
+        public ActionResult<BeerResponseModel?> GetBeer(int beerId)
         {
             logger.LogInformation(EventIds.BeerRetrievalStarted.ToEventId(), "Retrieval of beer {BeerId} started.", beerId);
             
@@ -37,7 +36,7 @@ namespace IPF.Brewery.API.Controllers
 
         [HttpGet]
         [Route("/Beer/All")]
-        public IActionResult GetBeers()
+        public ActionResult<List<BeerResponseModel>> GetBeers()
         {
             logger.LogInformation(EventIds.BeersRetrievalStarted.ToEventId(), "Retrieval of beers started.");
             
@@ -50,7 +49,7 @@ namespace IPF.Brewery.API.Controllers
 
         [HttpGet]
         [Route("/Beer")]
-        public IActionResult GetBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume)
+        public ActionResult<List<BeerResponseModel>> GetBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume)
         {
             logger.LogInformation(EventIds.BeersRetrievalStarted.ToEventId(), "Retrieval of beers within alcohol percentage range started.");
 

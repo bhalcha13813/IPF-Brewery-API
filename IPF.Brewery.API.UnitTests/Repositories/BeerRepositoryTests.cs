@@ -31,10 +31,10 @@ namespace IPF.Brewery.API.UnitTests.Repositories
             Beer beer1 = new Beer() {Id = 1, BeerName = "Heineken", PercentageAlcoholByVolume = 4.3M, BeerTypeId = 1};
             Beer beer2 = new Beer() { Id = 2, BeerName = "Budweiser", PercentageAlcoholByVolume = 4.7M, BeerTypeId = 2};
 
-            beerRepository.addBeer(beer1);
-            beerRepository.addBeer(beer2);
+            beerRepository.AddBeer(beer1);
+            beerRepository.AddBeer(beer2);
 
-            List<Beer> beers = beerRepository.getBeers().ToList();
+            List<Beer> beers = beerRepository.GetBeers().ToList();
 
             Assert.IsNotEmpty(beers);
             Assert.AreEqual(2, beers.Count);

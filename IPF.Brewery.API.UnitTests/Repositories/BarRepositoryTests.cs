@@ -25,10 +25,10 @@ namespace IPF.Brewery.API.UnitTests.Repositories
             Bar bar1 = new Bar() {Id = 1, BarName = "Mambo", Address = "Bridge Street, Taunton"};
             Bar bar2 = new Bar() { Id = 2, BarName = "Zinc", Address = "East Street, Taunton" };
 
-            barRepository.addBar(bar1);
-            barRepository.addBar(bar2);
+            barRepository.AddBar(bar1);
+            barRepository.AddBar(bar2);
 
-            List<Bar> breweries = barRepository.getBars().ToList();
+            List<Bar> breweries = barRepository.GetBars().ToList();
 
             Assert.IsNotEmpty(breweries);
             Assert.AreEqual(2, breweries.Count);

@@ -4,13 +4,13 @@ namespace IPF.Brewery.Common.Repositories
 {
     public interface IBarRepository
     {
-        Bar? getBar(int barId);
-        Bar? getBar(string barName);
-        IQueryable<Bar> getBars();
-        Bar? getBarBeers(int barId);
-        IQueryable<Bar> getAllBarsWithBeers();
+        Bar? GetBar(int barId);
+        Bar? GetBar(string barName);
+        IQueryable<Bar> GetBars();
+        Bar? GetBarBeers(int barId);
+        IQueryable<Bar> GetAllBarsWithBeers();
 
-        int addBar(Bar bar);
-        int updateBar(Bar bar);
+        int AddBar(Bar bar);
+        int UpdateBar(Bar bar);
     }
 }

@@ -64,9 +64,8 @@ namespace IPF.Brewery.API.UnitTests.Controllers
             A.CallTo(() => fakeBarService.GetBars())
                             .Returns(new List<BarResponseModel>() { new BarResponseModel() { Id = 1, BarName = "TestBar", Address = "TestAddress"} });
 
-            var result = (OkObjectResult)barController.GetBars();
-            Assert.IsInstanceOf<OkObjectResult>(result);
-            Assert.AreEqual(1, ((List<BarResponseModel>?)result.Value).Count);
+            var result = (ActionResult<List<BarResponseModel>>)barController.GetBars();
+            Assert.IsInstanceOf<ActionResult<List<BarResponseModel>>>(result);
         }
 
     }

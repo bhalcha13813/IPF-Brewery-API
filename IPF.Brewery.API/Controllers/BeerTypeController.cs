@@ -5,7 +5,7 @@ using IPF.Brewery.Common.Logging;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Mvc;
-using VMBeerType = IPF.Brewery.API.Validation.Models.VMBeerType;
+using IPF.Brewery.API.Validation.Models;
 
 namespace IPF.Brewery.API.Controllers
 {
@@ -17,14 +17,14 @@ namespace IPF.Brewery.API.Controllers
                                   ILogger<BeerTypeController> logger,
                                   IBeerTypeService beerTypeService) : base(contextAccessor, logger)
         {
-            this.logger = this.logger;
+            this.logger = logger;
             this.beerTypeService = beerTypeService;
         }
 
 
         [HttpGet]
         [Route("/BeerType")]
-        public IActionResult GetBeerTypes()
+        public ActionResult<List<BeerTypeResponseModel>> GetBeerTypes()
         {
             logger.LogInformation(EventIds.BeerTypesRetrievalStarted.ToEventId(), "Retrieval of beer types started.");
 

@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using AutoMapper;
+using FluentValidation.Results;
 using IPF.Brewery.API.Validation;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
@@ -12,11 +13,15 @@ namespace IPF.Brewery.API.Service
     {
         private readonly IBeerTypeValidator addBeerTypeValidator;
         private readonly IBeerTypeRepository beerTypeRepository;
+        private readonly IMapper mapper;
         
-        public BeerTypeService(IBeerTypeValidator addBeerTypeValidator, IBeerTypeRepository beerTypeRepository)
+        public BeerTypeService(IBeerTypeValidator addBeerTypeValidator, 
+                                IBeerTypeRepository beerTypeRepository, 
+                                IMapper mapper)
         {
             this.addBeerTypeValidator = addBeerTypeValidator;
             this.beerTypeRepository = beerTypeRepository;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -25,12 +30,9 @@ namespace IPF.Brewery.API.Service
         /// <returns>List of beer types</returns>
         public List<BeerTypeResponseModel> GetBeerTypes()
         {
-           return beerTypeRepository.getBeerTypes()
-                  .Select(b => new BeerTypeResponseModel()
-                                        {
-                                            Id = b.Id,
-                                            BeerType = b.BeerTypeName
-                                        }).ToList();
+           return beerTypeRepository.GetBeerTypes()
+                                    .Select(b => mapper.Map<BeerTypeResponseModel>(b))
+                                    .ToList();
         }
 
         /// <summary>
@@ -49,11 +51,8 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of beer types added</returns>
         public int AddBeerType(BeerTypePayload beerTypePayload)
         {
-            BeerType beerType = new BeerType()
-            {
-                BeerTypeName = beerTypePayload.BeerType,
-            };
-            return beerTypeRepository.addBeerType(beerType);
+            BeerType beerType = mapper.Map<BeerType>(beerTypePayload);
+            return beerTypeRepository.AddBeerType(beerType);
         }
 
         /// <summary>
@@ -64,7 +63,7 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of beer types updated</returns>
         public int UpdateBeerType(int beerTypeId, BeerTypePayload beerTypePayload)
         {
-            BeerType? beerType = beerTypeRepository.getBeerType(beerTypeId);
+            BeerType? beerType = beerTypeRepository.GetBeerType(beerTypeId);
 
             int updatedBeerTypes = 0;
 
@@ -72,7 +71,7 @@ namespace IPF.Brewery.API.Service
             {
                 beerType.BeerTypeName = beerTypePayload.BeerType;
 
-                updatedBeerTypes = beerTypeRepository.updateBeerType(beerType);
+                updatedBeerTypes = beerTypeRepository.UpdateBeerType(beerType);
             }
 
             return updatedBeerTypes;

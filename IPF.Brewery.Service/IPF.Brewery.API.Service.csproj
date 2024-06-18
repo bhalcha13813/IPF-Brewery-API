@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\IPF.Brewery.API.Validation\IPF.Brewery.API.Validation.csproj" />
+    <ProjectReference Include="..\IPF.Brewery.Common\IPF.Brewery.Common.csproj" />
   </ItemGroup>
 
 </Project>

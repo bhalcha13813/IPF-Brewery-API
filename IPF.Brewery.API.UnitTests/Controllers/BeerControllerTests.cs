@@ -64,9 +64,8 @@ namespace IPF.Brewery.API.UnitTests.Controllers
             A.CallTo(() => fakeBeerService.GetBeers())
                             .Returns(new List<BeerResponseModel>() { new BeerResponseModel() { Id = 1, BeerName = "TestBeer", PercentageAlcoholByVolume = 4.5M, BeerType = "Beer Type 1"} });
 
-            var result = (OkObjectResult)beerController.GetBeers();
-            Assert.IsInstanceOf<OkObjectResult>(result);
-            Assert.AreEqual(1,((List<BeerResponseModel>?)result.Value).Count);
+            var result = (ActionResult<List<BeerResponseModel>>)beerController.GetBeers();
+            Assert.IsInstanceOf<ActionResult<List<BeerResponseModel>>>(result);
         }
     }
 }

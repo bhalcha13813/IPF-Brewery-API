@@ -4,7 +4,6 @@ using IPF.Brewery.Common.Repositories;
 using System.Net;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
-using IPF.Brewery.Common.Models.Response;
 
 namespace IPF.Brewery.API.Validation
 {
@@ -33,12 +32,12 @@ namespace IPF.Brewery.API.Validation
 
             RuleFor(b => b.BreweryId)
                 .Must(b => BeExistingBrewery(b))
-                .WithErrorCode(HttpStatusCode.Conflict.ToString())
+                .WithErrorCode(HttpStatusCode.BadRequest.ToString())
                 .WithMessage("Brewery does not exist, Please add Brewery first.");
 
             RuleFor(b => b.BeerId)
                 .Must(b => BeExistingBeer(b))
-                .WithErrorCode(HttpStatusCode.Conflict.ToString())
+                .WithErrorCode(HttpStatusCode.BadRequest.ToString())
                 .WithMessage("Beer does not exist, Please add Beer first.");
 
             RuleFor(b => b)
@@ -52,7 +51,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (brewery == null)
             {
-                brewery = breweryRepository.getBrewery(breweryId);
+                brewery = breweryRepository.GetBrewery(breweryId);
             }
 
             return brewery;
@@ -62,7 +61,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (beer == null)
             {
-                beer = beerRepository.getBeer(beerId);
+                beer = beerRepository.GetBeer(beerId);
             }
 
             return beer;
@@ -82,7 +81,7 @@ namespace IPF.Brewery.API.Validation
 
         private bool NotBeExistingBreweryBeer(VMBreweryBeer vmBreweryBeer)
         {
-            Common.Models.DTO.Brewery? breweryBeers = breweryRepository.getBreweryBeers(vmBreweryBeer.BreweryId);
+            Common.Models.DTO.Brewery? breweryBeers = breweryRepository.GetBreweryBeers(vmBreweryBeer.BreweryId);
             if (breweryBeers != null)
             {
                 int beerCount = breweryBeers.Beer.Count(b => b.Id == vmBreweryBeer.BeerId);

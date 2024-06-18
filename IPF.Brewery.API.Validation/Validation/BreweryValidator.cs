@@ -43,7 +43,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (brewery == null)
             {
-                brewery = breweryRepository.getBrewery(vmBrewery.BreweryName);
+                brewery = breweryRepository.GetBrewery(vmBrewery.BreweryName);
 
                 if (brewery != null && vmBrewery.Id != null)
                 {

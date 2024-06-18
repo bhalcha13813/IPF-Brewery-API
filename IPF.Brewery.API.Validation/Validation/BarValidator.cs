@@ -42,7 +42,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (bar == null)
             {
-                bar = barRepository.getBar(vmBar.BarName);
+                bar = barRepository.GetBar(vmBar.BarName);
 
                 if (bar != null && vmBar.Id != null)
                 {

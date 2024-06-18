@@ -11,39 +11,44 @@ namespace IPF.Brewery.Common.Repositories
             this.breweryContext = breweryContext;
         }
 
-        public Bar? getBar(int barId)
+        public Bar? GetBar(int barId)
         {
             return breweryContext.Bar.FirstOrDefault(b => b.Id == barId);
         }
 
-        public Bar? getBar(string barName)
+        public Bar? GetBar(string barName)
         {
             return breweryContext.Bar.FirstOrDefault(b => b.BarName== barName);
         }
 
-        public IQueryable<Bar> getBars()
+        public IQueryable<Bar> GetBars()
         {
             return breweryContext.Bar.AsQueryable();
         }
 
-        public Bar? getBarBeers(int barId)
+        public Bar? GetBarBeers(int barId)
         {
-            return breweryContext.Bar.Include(b => b.Beer)
-                .FirstOrDefault(b => b.Id == barId);
+            return breweryContext.Bar
+                                 .Include(b => b.Beer)
+                                 .Include("Beer.BeerType")
+                                 .FirstOrDefault(b => b.Id == barId);
         }
 
-        public IQueryable<Bar> getAllBarsWithBeers()
+        public IQueryable<Bar> GetAllBarsWithBeers()
         {
-            return breweryContext.Bar.Include(b => b.Beer).AsQueryable();
+            return breweryContext.Bar
+                                 .Include(b => b.Beer)
+                                 .Include("Beer.BeerType")
+                                 .AsQueryable();
         }
 
-        public int addBar(Bar bar)
+        public int AddBar(Bar bar)
         {
             breweryContext.Add(bar);
             return breweryContext.SaveChanges();
         }
 
-        public int updateBar(Bar bar)
+        public int UpdateBar(Bar bar)
         {
             breweryContext.Update(bar);
             return breweryContext.SaveChanges();

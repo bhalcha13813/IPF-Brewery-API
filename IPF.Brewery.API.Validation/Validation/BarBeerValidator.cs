@@ -32,12 +32,12 @@ namespace IPF.Brewery.API.Validation
 
             RuleFor(b => b.BarId)
                 .Must(b => BeExistingBar(b))
-                .WithErrorCode(HttpStatusCode.Conflict.ToString())
+                .WithErrorCode(HttpStatusCode.BadRequest.ToString())
                 .WithMessage("Bar does not exist, Please add Bar first.");
 
             RuleFor(b => b.BeerId)
                 .Must(b => BeExistingBeer(b))
-                .WithErrorCode(HttpStatusCode.Conflict.ToString())
+                .WithErrorCode(HttpStatusCode.BadRequest.ToString())
                 .WithMessage("Beer does not exist, Please add Beer first.");
 
             RuleFor(b => b)
@@ -51,7 +51,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (bar == null)
             {
-                bar = barRepository.getBar(barId);
+                bar = barRepository.GetBar(barId);
             }
 
             return bar;
@@ -61,7 +61,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (beer == null)
             {
-                beer = beerRepository.getBeer(beerId);
+                beer = beerRepository.GetBeer(beerId);
             }
 
             return beer;
@@ -82,7 +82,7 @@ namespace IPF.Brewery.API.Validation
 
         private bool NotBeExistingBarBeer(VMBarBeer vmBarBeer)
         {
-            Bar? barBeers = barRepository.getBarBeers(vmBarBeer.BarId);
+            Bar? barBeers = barRepository.GetBarBeers(vmBarBeer.BarId);
             if (barBeers != null)
             {
                int beerCount = barBeers.Beer.Count(b => b.Id == vmBarBeer.BeerId);

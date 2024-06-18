@@ -1,11 +1,11 @@
 ﻿using System.Net;
+using AutoMapper;
 using FakeItEasy;
 using FluentValidation.Results;
 using IPF.Brewery.API.Service;
 using IPF.Brewery.API.Validation;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
-using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using IPF.Brewery.Common.Repositories;
 
@@ -19,6 +19,7 @@ namespace IPF.Brewery.API.UnitTests.Services
         private IBarRepository fakeBarRepository;
         private IBeerRepository fakeBeerRepository;
         private IBarService barService;
+        private IMapper fakeMapper;
 
         [SetUp]
         public void Setup()
@@ -27,7 +28,8 @@ namespace IPF.Brewery.API.UnitTests.Services
             fakeBarBeerValidator = A.Fake<IBarBeerValidator>();
             fakeBarRepository = A.Fake<IBarRepository>();
             fakeBeerRepository = A.Fake<IBeerRepository>();
-            barService = new BarService(fakeBarValidator, fakeBarBeerValidator, fakeBarRepository, fakeBeerRepository);
+            fakeMapper = A.Fake<IMapper>();
+            barService = new BarService(fakeBarValidator, fakeBarBeerValidator, fakeBarRepository, fakeBeerRepository, fakeMapper);
         }
 
         [Test]
@@ -57,7 +59,7 @@ namespace IPF.Brewery.API.UnitTests.Services
         [Test]
         public void Test_GetBars_Returns_Bars()
         {
-            A.CallTo(() => fakeBarRepository.getBars())
+            A.CallTo(() => fakeBarRepository.GetBars())
                             .Returns((new List<Bar>() { new Bar() { Id = 1, BarName = "TestBar", Address = "TestAddress" } }).AsQueryable());
 
             List<BarResponseModel> bars = barService.GetBars();

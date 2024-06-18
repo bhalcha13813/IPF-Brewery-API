@@ -51,7 +51,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (beer == null)
             {
-                beer = beerRepository.getBeer(vmBeer.BeerName);
+                beer = beerRepository.GetBeer(vmBeer.BeerName);
 
                 if (beer != null && vmBeer.Id != null)
                 {
@@ -69,7 +69,7 @@ namespace IPF.Brewery.API.Validation
         {
             if (beerType == null)
             {
-                beerType = beerTypeRepository.getBeerType(beerTypeId);
+                beerType = beerTypeRepository.GetBeerType(beerTypeId);
             }
 
             return beerType;

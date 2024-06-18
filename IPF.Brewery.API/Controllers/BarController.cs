@@ -3,7 +3,6 @@ using IPF.Brewery.API.Extension;
 using IPF.Brewery.API.Service;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Logging;
-using IPF.Brewery.Common.Models.DTO;
 using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +25,7 @@ namespace IPF.Brewery.API.Controllers
 
         [HttpGet]
         [Route("/bar")]
-        public IActionResult GetBars()
+        public ActionResult<List<BarResponseModel>> GetBars()
         {
             logger.LogInformation(EventIds.BarsRetrievalStarted.ToEventId(), "Retrieval of bars started.");
 
@@ -39,7 +38,7 @@ namespace IPF.Brewery.API.Controllers
 
         [HttpGet]
         [Route("/bar/{barId}")]
-        public IActionResult GetBar(int barId)
+        public ActionResult<BarResponseModel> GetBar(int barId)
         {
             logger.LogInformation(EventIds.BarRetrievalStarted.ToEventId(), "Retrieval of bar {BarId} started.", barId);
             
@@ -52,7 +51,7 @@ namespace IPF.Brewery.API.Controllers
 
         [HttpGet]
         [Route("/bar/{barId}/beer")]
-        public IActionResult GetBarBeers(int barId)
+        public ActionResult<BarBeer?> GetBarBeers(int barId)
         {
             logger.LogInformation(EventIds.BarBeersRetrievalStarted.ToEventId(), "Retrieval of bar-beers for {BarId} started.", barId);
             
@@ -65,7 +64,7 @@ namespace IPF.Brewery.API.Controllers
 
         [HttpGet]
         [Route("/bar/beer")]
-        public IActionResult getAllBarsWithBeers()
+        public ActionResult<List<BarBeer>> getAllBarsWithBeers()
         {
             logger.LogInformation(EventIds.BarBeersRetrievalStarted.ToEventId(), "Retrieval of bar-beers started.");
 

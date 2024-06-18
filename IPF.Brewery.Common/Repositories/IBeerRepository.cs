@@ -4,11 +4,11 @@ namespace IPF.Brewery.Common.Repositories
 {
     public interface IBeerRepository
     {
-        Beer? getBeer(int beerId);
-        Beer? getBeer(string beerName);
-        IQueryable<Beer> getBeers();
-        IQueryable<Beer> getBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume);
-        int addBeer(Beer beer);
-        int updateBeer(Beer beer);
+        Beer? GetBeer(int beerId);
+        Beer? GetBeer(string beerName);
+        IQueryable<Beer> GetBeers();
+        IQueryable<Beer> GetBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume);
+        int AddBeer(Beer beer);
+        int UpdateBeer(Beer beer);
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.Net;
+using AutoMapper;
 using FakeItEasy;
 using FluentValidation.Results;
 using IPF.Brewery.API.Service;
 using IPF.Brewery.API.Validation;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
-using IPF.Brewery.Common.Models.Request;
 using IPF.Brewery.Common.Models.Response;
 using IPF.Brewery.Common.Repositories;
 
@@ -17,13 +17,15 @@ namespace IPF.Brewery.API.UnitTests.Services
         private IBeerValidator fakeBeerValidator;
         private IBeerRepository fakeBeerRepository;
         private IBeerService beerService;
+        private IMapper fakeMapper;
 
         [SetUp]
         public void Setup()
         {
             fakeBeerValidator = A.Fake<IBeerValidator>();
             fakeBeerRepository = A.Fake<IBeerRepository>();
-            beerService = new BeerService(fakeBeerValidator, fakeBeerRepository);
+            fakeMapper = A.Fake<IMapper>();
+            beerService = new BeerService(fakeBeerValidator, fakeBeerRepository, fakeMapper);
         }
 
         [Test]
@@ -53,7 +55,7 @@ namespace IPF.Brewery.API.UnitTests.Services
         [Test]
         public void Test_GetBeers_Returns_Beers()
         {
-            A.CallTo(() => fakeBeerRepository.getBeers(A<decimal>.Ignored, A<decimal>.Ignored))
+            A.CallTo(() => fakeBeerRepository.GetBeers(A<decimal>.Ignored, A<decimal>.Ignored))
                             .Returns((new List<Beer>() { new Beer() { Id = 1, BeerName = "TestBeer", PercentageAlcoholByVolume = 5.5M, BeerTypeId = 1, 
                                               BeerType = new BeerType() {Id = 1, BeerTypeName = "Beer Type"} } }).AsQueryable());
 

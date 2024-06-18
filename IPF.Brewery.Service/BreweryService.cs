@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using AutoMapper;
+using FluentValidation.Results;
 using IPF.Brewery.API.Validation;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
@@ -14,16 +15,19 @@ namespace IPF.Brewery.API.Service
         private readonly IBreweryBeerValidator breweryBeerValidator;
         private readonly IBreweryRepository breweryRepository;
         private readonly IBeerRepository beerRepository;
+        private readonly IMapper mapper;
 
         public BreweryService(IBreweryValidator breweryValidator,
                               IBreweryBeerValidator breweryBeerValidator,
                               IBreweryRepository breweryRepository, 
-                              IBeerRepository beerRepository)
+                              IBeerRepository beerRepository,
+                              IMapper mapper)
         {
             this.breweryValidator = breweryValidator;
             this.breweryBeerValidator = breweryBeerValidator;
             this.breweryRepository = breweryRepository;
             this.beerRepository = beerRepository;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -32,12 +36,7 @@ namespace IPF.Brewery.API.Service
         /// <returns>List of breweries</returns>
         public List<BreweryResponseModel> GetBreweries()
         {
-            return breweryRepository.getBreweries().Select(b => new BreweryResponseModel()
-            {
-                Id = b.Id,
-                BreweryName = b.BreweryName,
-                Address = b.Address
-            }).ToList();
+            return breweryRepository.GetBreweries().Select(b => mapper.Map<BreweryResponseModel>(b)).ToList();
         }
 
         /// <summary>
@@ -47,13 +46,8 @@ namespace IPF.Brewery.API.Service
         /// <returns>brewery</returns>
         public BreweryResponseModel? GetBrewery(int breweryId)
         {
-            Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryId);
-            return brewery == null ? null : new BreweryResponseModel()
-            {
-                Id = brewery.Id,
-                BreweryName = brewery.BreweryName,
-                Address = brewery.Address
-            };
+            Common.Models.DTO.Brewery? brewery = breweryRepository.GetBrewery(breweryId);
+            return mapper.Map<BreweryResponseModel>(brewery);
         }
 
         /// <summary>
@@ -63,23 +57,9 @@ namespace IPF.Brewery.API.Service
         /// <returns>BreweryBeers</returns>
         public BreweryBeer? GetBreweryBeers(int breweryId)
         {
-            Common.Models.DTO.Brewery? brewery = breweryRepository.getBreweryBeers(breweryId);
-            return brewery == null ? null : new BreweryBeer()
-                                            {
-                                                Brewery = new BreweryResponseModel()
-                                                {
-                                                    Id = brewery.Id,
-                                                    BreweryName = brewery.BreweryName,
-                                                    Address = brewery.Address
-                                                },
-                                                Beers = brewery.Beer.Select(be => new BeerResponseModel()
-                                                {
-                                                    Id = be.Id,
-                                                    BeerName = be.BeerName,
-                                                    PercentageAlcoholByVolume = be.PercentageAlcoholByVolume,
-                                                    BeerType = be.BeerType.BeerTypeName
-                                                }).ToList()
-                                            };
+            Common.Models.DTO.Brewery? brewery = breweryRepository.GetBreweryBeers(breweryId);
+            BreweryBeer? breweryBeers = mapper.Map<BreweryBeer>(brewery);
+            return breweryBeers;
         }
 
         /// <summary>
@@ -88,22 +68,7 @@ namespace IPF.Brewery.API.Service
         /// <returns>BreweryBeers</returns>
         public List<BreweryBeer> GetAllBreweriesWithBeers()
         {
-            return breweryRepository.getAllBreweriesWithBeers().Select(b => new BreweryBeer()
-            {
-                Brewery = new BreweryResponseModel()
-                {
-                    Id = b.Id,
-                    BreweryName = b.BreweryName,
-                    Address = b.Address
-                },
-                Beers = b.Beer.Select(be => new BeerResponseModel()
-                {
-                    Id = be.Id,
-                    BeerName = be.BeerName,
-                    PercentageAlcoholByVolume = be.PercentageAlcoholByVolume,
-                    BeerType = be.BeerType.BeerTypeName
-                }).ToList()
-            }).ToList();
+            return breweryRepository.GetAllBreweriesWithBeers().Select(b => mapper.Map<BreweryBeer>(b)).ToList();
         }
 
         /// <summary>
@@ -122,12 +87,8 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of breweries added</returns>
         public int AddBrewery(BreweryPayload breweryPayload)
         {
-            Common.Models.DTO.Brewery brewery = new Common.Models.DTO.Brewery()
-            {
-                BreweryName = breweryPayload.BreweryName,
-                Address = breweryPayload.Address
-            };
-            return breweryRepository.addBrewery(brewery);
+            Common.Models.DTO.Brewery brewery = mapper.Map<Common.Models.DTO.Brewery>(breweryPayload);
+            return breweryRepository.AddBrewery(brewery);
         }
 
         /// <summary>
@@ -138,7 +99,7 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of breweries updated</returns>
         public int UpdateBrewery(int breweryId, BreweryPayload breweryPayload)
         {
-            Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryId);
+            Common.Models.DTO.Brewery? brewery = breweryRepository.GetBrewery(breweryId);
 
             int updatedBreweries = 0;
 
@@ -147,7 +108,7 @@ namespace IPF.Brewery.API.Service
                 brewery.BreweryName = breweryPayload.BreweryName;
                 brewery.Address = breweryPayload.Address;
 
-                updatedBreweries = breweryRepository.updateBrewery(brewery);
+                updatedBreweries = breweryRepository.UpdateBrewery(brewery);
             }
 
             return updatedBreweries;
@@ -170,15 +131,15 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of brewery beers mapped</returns>
         public int AddBreweryBeer(BreweryBeerPayload breweryBeerPayload)
         {
-            Common.Models.DTO.Brewery? brewery = breweryRepository.getBrewery(breweryBeerPayload.BreweryId);
-            Beer? beer = beerRepository.getBeer(breweryBeerPayload.BeerId);
+            Common.Models.DTO.Brewery? brewery = breweryRepository.GetBrewery(breweryBeerPayload.BreweryId);
+            Beer? beer = beerRepository.GetBeer(breweryBeerPayload.BeerId);
 
             int updatedBreweryBeer = 0;
 
             if (brewery != null && beer != null)
             {
                 brewery.Beer.Add(beer);
-                updatedBreweryBeer = breweryRepository.updateBrewery(brewery);
+                updatedBreweryBeer = breweryRepository.UpdateBrewery(brewery);
             }
             return updatedBreweryBeer;
         }

@@ -50,7 +50,7 @@ namespace IPF.Brewery.API
                     });
             });
 
-            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -73,7 +73,6 @@ namespace IPF.Brewery.API
             services.AddScoped<IBeerTypeRepository, BeerTypeRepository>();
 
             services.AddHealthChecks();
-
 
         }
 

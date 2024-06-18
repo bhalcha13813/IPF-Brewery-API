@@ -2,12 +2,12 @@
 {
     public interface IBreweryRepository
     {
-        Models.DTO.Brewery? getBrewery(int breweryId);
-        Models.DTO.Brewery? getBrewery(string breweryName);
-        IQueryable<Models.DTO.Brewery> getBreweries();
-        Models.DTO.Brewery? getBreweryBeers(int breweryId);
-        IQueryable<Models.DTO.Brewery> getAllBreweriesWithBeers();
-        int addBrewery(Models.DTO.Brewery brewery);
-        int updateBrewery(Models.DTO.Brewery brewery);
+        Models.DTO.Brewery? GetBrewery(int breweryId);
+        Models.DTO.Brewery? GetBrewery(string breweryName);
+        IQueryable<Models.DTO.Brewery> GetBreweries();
+        Models.DTO.Brewery? GetBreweryBeers(int breweryId);
+        IQueryable<Models.DTO.Brewery> GetAllBreweriesWithBeers();
+        int AddBrewery(Models.DTO.Brewery brewery);
+        int UpdateBrewery(Models.DTO.Brewery brewery);
     }
 }

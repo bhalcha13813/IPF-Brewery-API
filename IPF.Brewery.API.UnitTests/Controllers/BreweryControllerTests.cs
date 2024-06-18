@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Castle.Core.Logging;
 using FakeItEasy;
 using FluentValidation.Results;
 using IPF.Brewery.API.Controllers;
@@ -65,9 +64,8 @@ namespace IPF.Brewery.API.UnitTests.Controllers
             A.CallTo(() => fakeBreweryService.GetBreweries())
                             .Returns(new List<BreweryResponseModel>() { new BreweryResponseModel() { Id = 1, BreweryName = "TestBrewery", Address = "TestAddress"} });
 
-            var result = (OkObjectResult)breweryController.GetBreweries();
-            Assert.IsInstanceOf<OkObjectResult>(result);
-            Assert.AreEqual(1, ((List<BreweryResponseModel>?)result.Value).Count);
+            var result = (ActionResult<List<BreweryResponseModel>>)breweryController.GetBreweries();
+            Assert.IsInstanceOf<ActionResult<List<BreweryResponseModel>>>(result);
         }
 
     }

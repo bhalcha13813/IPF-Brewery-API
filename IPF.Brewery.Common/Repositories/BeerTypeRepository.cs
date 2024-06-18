@@ -11,28 +11,28 @@ namespace IPF.Brewery.Common.Repositories
             this.breweryContext = breweryContext;
         }
 
-        public IQueryable<BeerType> getBeerTypes()
+        public IQueryable<BeerType> GetBeerTypes()
         {
             return breweryContext.BeerType.AsQueryable();
         }
 
-        public BeerType? getBeerType(int beerTypeId)
+        public BeerType? GetBeerType(int beerTypeId)
         {
             return breweryContext.BeerType.FirstOrDefault(b => b.Id == beerTypeId);
         }
 
-        public BeerType? getBeerType(string beerType)
+        public BeerType? GetBeerType(string beerType)
         {
             return breweryContext.BeerType.FirstOrDefault(b => b.BeerTypeName == beerType);
         }
 
-        public int addBeerType(BeerType beerType)
+        public int AddBeerType(BeerType beerType)
         {
             breweryContext.Add(beerType);
             return breweryContext.SaveChanges();
         }
 
-        public int updateBeerType(BeerType beerType)
+        public int UpdateBeerType(BeerType beerType)
         {
             breweryContext.Update(beerType);
             return breweryContext.SaveChanges();

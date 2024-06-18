@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IPF.Brewery.Common.Models.DTO
 {
@@ -7,8 +6,8 @@ namespace IPF.Brewery.Common.Models.DTO
     {
         public Beer()
         {
-            this.Brewery = new HashSet<Brewery>();
-            this.Bar = new HashSet<Bar>();
+            Brewery = new HashSet<Brewery>();
+            Bar = new HashSet<Bar>();
         }
 
         public int Id { get; set; }

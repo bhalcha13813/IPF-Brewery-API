@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using AutoMapper;
+using FluentValidation.Results;
 using IPF.Brewery.API.Validation;
 using IPF.Brewery.API.Validation.Models;
 using IPF.Brewery.Common.Models.DTO;
@@ -12,11 +13,15 @@ namespace IPF.Brewery.API.Service
     {
         private readonly IBeerValidator _beerValidator;
         private readonly IBeerRepository beerRepository;
-        
-        public BeerService(IBeerValidator beerValidator, IBeerRepository beerRepository)
+        private readonly IMapper mapper;
+
+        public BeerService(IBeerValidator beerValidator, 
+                            IBeerRepository beerRepository, 
+                            IMapper mapper)
         {
             this._beerValidator = beerValidator;
             this.beerRepository = beerRepository;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -26,15 +31,8 @@ namespace IPF.Brewery.API.Service
         /// <returns>Beer</returns>
         public BeerResponseModel? GetBeer(int beerId)
         {
-           Beer? beer =  beerRepository.getBeer(beerId);
-
-           return beer == null ? null : new BeerResponseModel()
-                                           {
-                                               Id = beer.Id,
-                                               BeerName = beer.BeerName,
-                                               PercentageAlcoholByVolume = beer.PercentageAlcoholByVolume,
-                                               BeerType = beer.BeerType.BeerTypeName
-                                           };
+           Beer? beer =  beerRepository.GetBeer(beerId);
+           return mapper.Map<BeerResponseModel>(beer);
         }
 
         /// <summary>
@@ -43,14 +41,9 @@ namespace IPF.Brewery.API.Service
         /// <returns>List of beers</returns>
         public List<BeerResponseModel> GetBeers()
         {
-            return beerRepository.getBeers()
-                .Select(b => new BeerResponseModel()
-                {
-                    Id = b.Id,
-                    BeerName = b.BeerName,
-                    PercentageAlcoholByVolume = b.PercentageAlcoholByVolume,
-                    BeerType = b.BeerType.BeerTypeName
-                }).ToList();
+            return beerRepository.GetBeers()
+                                 .Select(b => mapper.Map<BeerResponseModel>(b))
+                                 .ToList();
         }
 
         /// <summary>
@@ -61,14 +54,9 @@ namespace IPF.Brewery.API.Service
         /// <returns>List of beers</returns>
         public List<BeerResponseModel> GetBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume)
         { 
-            return beerRepository.getBeers(gtAlcoholByVolume, ltAlcoholByVolume)
-                    .Select(b => new BeerResponseModel()
-                    {
-                       Id = b.Id,
-                       BeerName = b.BeerName,
-                       PercentageAlcoholByVolume = b.PercentageAlcoholByVolume,
-                       BeerType = b.BeerType.BeerTypeName
-                    }).ToList();
+            return beerRepository.GetBeers(gtAlcoholByVolume, ltAlcoholByVolume)
+                                 .Select(b => mapper.Map<BeerResponseModel>(b))
+                                 .ToList();
         }
 
         /// <summary>
@@ -87,13 +75,8 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of beers added</returns>
         public int AddBeer(BeerPayload beerPayload)
         {
-            Beer beer = new Beer()
-            {
-                BeerName = beerPayload.BeerName,
-                PercentageAlcoholByVolume = beerPayload.PercentageAlcoholByVolume,
-                BeerTypeId = beerPayload.BeerTypeId
-            };
-            return beerRepository.addBeer(beer);
+            Beer? beer = mapper.Map<Beer>(beerPayload);
+            return beerRepository.AddBeer(beer);
         }
 
         /// <summary>
@@ -104,7 +87,7 @@ namespace IPF.Brewery.API.Service
         /// <returns>number of beers uopdated</returns>
         public int UpdateBeer(int beerId, BeerPayload beerPayload)
         {
-            Beer? beer = beerRepository.getBeer(beerId);
+            Beer? beer = beerRepository.GetBeer(beerId);
             
             int updatedBeers = 0;
 
@@ -114,7 +97,7 @@ namespace IPF.Brewery.API.Service
                 beer.PercentageAlcoholByVolume = beerPayload.PercentageAlcoholByVolume;
                 beer.BeerTypeId = beerPayload.BeerTypeId;
 
-                updatedBeers = beerRepository.updateBeer(beer);
+                updatedBeers = beerRepository.UpdateBeer(beer);
             }
 
             return updatedBeers;

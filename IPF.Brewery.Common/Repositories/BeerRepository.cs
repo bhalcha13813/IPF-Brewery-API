@@ -12,22 +12,22 @@ namespace IPF.Brewery.Common.Repositories
             this.breweryContext = breweryContext;
         }
 
-        public Beer? getBeer(int beerId)
+        public Beer? GetBeer(int beerId)
         {
             return breweryContext.Beer.Include(b => b.BeerType).FirstOrDefault(b => b.Id == beerId);
         }
 
-        public Beer? getBeer(string beerName)
+        public Beer? GetBeer(string beerName)
         {
             return breweryContext.Beer.FirstOrDefault(b => b.BeerName== beerName);
         }
 
-        public IQueryable<Beer> getBeers()
+        public IQueryable<Beer> GetBeers()
         {
             return breweryContext.Beer.Include(b => b.BeerType);
         }
 
-        public IQueryable<Beer> getBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume)
+        public IQueryable<Beer> GetBeers(decimal gtAlcoholByVolume, decimal ltAlcoholByVolume)
         {
             return breweryContext.Beer
                 .Include(b => b.BeerType)
@@ -35,13 +35,13 @@ namespace IPF.Brewery.Common.Repositories
                             b.PercentageAlcoholByVolume < ltAlcoholByVolume);
         }
 
-        public int addBeer(Beer beer)
+        public int AddBeer(Beer beer)
         {
             breweryContext.Add(beer);
             return breweryContext.SaveChanges();
         }
 
-        public int updateBeer(Beer beer)
+        public int UpdateBeer(Beer beer)
         {
             breweryContext.Update(beer);
             return breweryContext.SaveChanges();

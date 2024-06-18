@@ -24,10 +24,10 @@ namespace IPF.Brewery.API.UnitTests.Repositories
             Common.Models.DTO.Brewery brewery1 = new Common.Models.DTO.Brewery() {Id = 1, BreweryName = "Kirkstall Brewery", Address = "Kirkstall Road, Leeds"};
             Common.Models.DTO.Brewery brewery2 = new Common.Models.DTO.Brewery() { Id = 2, BreweryName = "Bushmills Brewery", Address = "Marsh Lane, Belfast" };
 
-            breweryRepository.addBrewery(brewery1);
-            breweryRepository.addBrewery(brewery2);
+            breweryRepository.AddBrewery(brewery1);
+            breweryRepository.AddBrewery(brewery2);
 
-            List<Common.Models.DTO.Brewery> breweries = breweryRepository.getBreweries().ToList();
+            List<Common.Models.DTO.Brewery> breweries = breweryRepository.GetBreweries().ToList();
 
             Assert.IsNotEmpty(breweries);
             Assert.AreEqual(2, breweries.Count);
