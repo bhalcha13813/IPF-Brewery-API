@@ -13,8 +13,8 @@ This API is written in Dot Net Core 6.0
   * Data Layer
 
 ### Local machine set-up 
-- clone IPF-Brewery-API repository
-- build solution
+- Clone IPF-Brewery-API repository
+- Build solution
 - Update Database Connection string in appsettings.json
 - Go to Package Manager Console
 - Execute Update-Database command
