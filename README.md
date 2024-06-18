@@ -1,6 +1,6 @@
 # IPF-Brewery-API
 
-Brewery API is used to add update retrieve Breweries, Bars, Beers, map Bar-Beers & map Brewery-Beers
+Brewery API is used to add/update/retrieve Breweries, Bars, Beers, map Bar-Beers & map Brewery-Beers
 
 ## Framework
 This API is written in Dot Net Core 6.0
