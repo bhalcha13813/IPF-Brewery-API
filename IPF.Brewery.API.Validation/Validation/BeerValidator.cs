@@ -43,7 +43,7 @@ namespace IPF.Brewery.API.Validation
 
             RuleFor(b => b.BeerTypeId)
                 .Must(b => BeExistingBeerType(b))
-                .WithErrorCode(HttpStatusCode.Conflict.ToString())
+                .WithErrorCode(HttpStatusCode.BadRequest.ToString())
                 .WithMessage("BeerType does not exist, Please add BeerType first.");
         }
 
